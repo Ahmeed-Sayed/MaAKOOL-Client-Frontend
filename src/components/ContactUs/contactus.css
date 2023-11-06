@@ -1,0 +1,19 @@
+.bodyContainer {
+  min-height: calc(100vh - 110px);
+  padding: 0px 40px;
+  margin-top: 80px;
+}
+
+.leftGrid p {
+  font-size: 2.5rem;
+}
+
+.rightGrid {
+  background-color: white;
+  border-color: black;
+}
+
+.rightGrid input,
+.rightGrid textarea {
+  border-color: black;
+}

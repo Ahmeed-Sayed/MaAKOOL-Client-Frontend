@@ -1,7 +1,9 @@
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import "./Header.css"; // Import a custom CSS file for styling
 import { Badge } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="upperHeader align-items-center bg-dark d-flex justify-content-between p-3">
@@ -45,40 +47,41 @@ const Header = () => {
         >
           <ul className="navbar-nav ms-3  fs-4">
             <li className="nav-item mx-4 ">
-              <a className="nav-link text-light fw-bold" href="#">
+              <Link className="nav-link text-light fw-bold" to="/">
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item mx-4">
-              <a className="nav-link text-light" href="#">
+              <Link className="nav-link text-light" to="/browse">
                 All
-              </a>
+              </Link>
             </li>
             <li className="nav-item mx-4">
-              <a className="nav-link text-light" href="#">
+              <Link className="nav-link text-light" to="/browse">
                 Pizza
-              </a>
+              </Link>
             </li>
             <li className="nav-item mx-4">
-              <a className="nav-link text-light" href="#">
+              <Link className="nav-link text-light" to="/browse">
                 Burgers
-              </a>
+              </Link>
             </li>
             <li className="nav-item mx-4">
-              <a className="nav-link text-light" href="#">
+              <Link className="nav-link text-light" to="/browse">
                 Sandwiches
-              </a>
+              </Link>
             </li>
             <li className="nav-item mx-4">
-              <a className="nav-link text-light" href="#">
+              <Link className="nav-link text-light" to="/browse">
                 Desserts
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="d-flex me-5">
             <button
               className="btn bg-light text-dark fw-bold px-3 fs-4 me-3"
               type="submit"
+              onClick={() => navigate("/cart")}
             >
               Place your order
             </button>
