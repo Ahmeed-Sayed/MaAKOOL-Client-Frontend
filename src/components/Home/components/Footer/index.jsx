@@ -8,9 +8,12 @@ const Footer = () => {
         <Link to="/contactUs" className="text-light text-decoration-none">
           Contact Us
         </Link>
-        <p>Fast Food Restuarant</p>
+        <Link className="text-light text-decoration-none" to="/">
+          Fast Food Restuarant
+        </Link>
         <p>
-          <Copyright></Copyright>iti 2023
+          <Copyright />
+          iti 2023
         </p>
       </div>
     </>

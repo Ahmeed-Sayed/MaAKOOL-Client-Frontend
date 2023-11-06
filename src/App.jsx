@@ -8,6 +8,7 @@ import HomePage from "./components/Home";
 import ContactUs from "./components/ContactUs";
 import Profile from "./components/Profile";
 import ProfileEdit from "./components/ProfileEdit";
+import BrowseCatg from "./components/BrowseCatg";
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/browse" element={<Browsing />} />
+          <Route path="/browse/:catgName" element={<BrowseCatg />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/contactUs" element={<ContactUs />} />
           <Route path="/profile" element={<Profile />} />

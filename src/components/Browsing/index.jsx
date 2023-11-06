@@ -1,8 +1,9 @@
-import ProudctCard from "./Card";
+import ProudctCard from "../ProductCard";
+import products from "./products.json";
 const Browsing = () => {
   return (
     <>
-      <ProudctCard />
+      <ProudctCard products={products} />
     </>
   );
 };

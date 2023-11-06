@@ -44,8 +44,8 @@ const Edit = () => {
   });
   return (
     <form onSubmit={formik.handleSubmit}>
-      <section style={{ backgroundColor: "#eee" }} className="profileSection">
-        <div className="container py-5 fs-5">
+      <section className="profileSection">
+        <div className="container py-4 fs-5">
           <div className="row">
             <div className="col">
               <nav
