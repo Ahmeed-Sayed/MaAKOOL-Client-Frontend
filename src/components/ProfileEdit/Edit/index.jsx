@@ -1,5 +1,6 @@
 import "../../Profile/components/ProfileInfo/profile.css";
 import { useFormik } from "formik";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 const Edit = () => {
   const formik = useFormik({
@@ -53,10 +54,10 @@ const Edit = () => {
               >
                 <ol className="breadcrumb mb-0">
                   <li className="breadcrumb-item">
-                    <a href="#">Home</a>
+                    <Link to="/">Home</Link>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
-                    <a href="#">User Profile</a>
+                    <Link to="/profile">User Profile</Link>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
                     User Profile Edit

@@ -1,5 +1,3 @@
-import Header from "../Home/components/Header";
-import Footer from "../Home/components/Footer";
 import "./contactus.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -37,7 +35,6 @@ export default function ContactUs() {
   });
   return (
     <>
-      <Header />
       <div className="bodyContainer">
         <div className="row gridBody  text-light ">
           <div className="col-4 leftGrid text-center d-flex flex-column justify-content-center">
@@ -144,7 +141,6 @@ export default function ContactUs() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

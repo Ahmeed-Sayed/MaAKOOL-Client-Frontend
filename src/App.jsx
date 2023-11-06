@@ -1,9 +1,28 @@
 import "./App.css";
-import Main from "./components";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import Header from "./components/Home/components/Header";
+import Footer from "./components/Home/components/Footer";
+import Browsing from "./components/Browsing";
+import Cart from "./components/Cart";
+import HomePage from "./components/Home";
+import ContactUs from "./components/ContactUs";
+import Profile from "./components/Profile";
+import ProfileEdit from "./components/ProfileEdit";
 function App() {
   return (
     <>
-      <Main />
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/browse" element={<Browsing />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/contactUs" element={<ContactUs />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/edit" element={<ProfileEdit />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
     </>
   );
 }
