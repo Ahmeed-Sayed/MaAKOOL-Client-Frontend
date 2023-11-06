@@ -1,5 +1,5 @@
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import "./Header.css"; // Import a custom CSS file for styling
+import "./header.css"; // Import a custom CSS file for styling
 import { Badge } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 const Header = () => {
