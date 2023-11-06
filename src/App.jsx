@@ -8,7 +8,9 @@ import HomePage from "./components/Home";
 import ContactUs from "./components/ContactUs";
 import Profile from "./components/Profile";
 import ProfileEdit from "./components/ProfileEdit";
+import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignIn/SignIn";
+
 function App() {
   return (
     <>
@@ -22,6 +24,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/edit" element={<ProfileEdit />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
 
         </Routes>
         <Footer />
