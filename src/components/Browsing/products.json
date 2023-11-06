@@ -1,0 +1,143 @@
+[
+  {
+    "id": 6,
+    "category": "Crepes",
+    "itemName": "Greek Gyro Pizza",
+    "price": 12.99,
+    "description": "Savory crepe with gyro meat, Tzatziki sauce, and fresh vegetables"
+  },
+  {
+    "id": 4,
+    "category": "Burgers",
+    "itemName": "Classic Cheeseburger",
+    "price": 8.99,
+    "description": "Juicy beef patty with cheese, lettuce, and tomato in a sesame seed bun"
+  },
+  {
+    "id": 11,
+    "category": "Sandwiches",
+    "itemName": "Grilled Cheese Sandwich",
+    "price": 7.99,
+    "description": "Melted cheddar cheese between slices of grilled bread"
+  },
+  {
+    "id": 17,
+    "category": "Sandwiches",
+    "itemName": "Turkey and Avocado Sandwich",
+    "price": 10.99,
+    "description": "Turkey, avocado, lettuce, and tomato on whole grain bread"
+  },
+  {
+    "id": 18,
+    "category": "Burgers",
+    "itemName": "BBQ Chicken Burger",
+    "price": 12.99,
+    "description": "Grilled chicken breast with BBQ sauce, lettuce, and tomato in a whole grain bun"
+  },
+  {
+    "id": 19,
+    "category": "Pizzas",
+    "itemName": "S'mores Crepe",
+    "price": 10.99,
+    "description": "Sweet crepe with chocolate, marshmallows, and graham cracker crumbs."
+  },
+  {
+    "id": 9,
+    "category": "Sandwiches",
+    "itemName": "BLT Sandwich",
+    "price": 8.99,
+    "description": "Classic sandwich with bacon, lettuce, and tomato"
+  },
+  {
+    "id": 5,
+    "category": "Crepes",
+    "itemName": "Avocado and Tomato Crepe",
+    "price": 11.99,
+    "description": "Savory crepe with sliced avocado and fresh tomatoes."
+  },
+  {
+    "id": 16,
+    "category": "Pizzas",
+    "itemName": "Vegetarian Pizza",
+    "price": 11.99,
+    "description": "Fresh vegetables and mozzarella cheese for a healthy choice"
+  },
+  {
+    "id": 7,
+    "category": "Burgers",
+    "itemName": "Veggie Burger",
+    "price": 9.99,
+    "description": "Plant-based patty with lettuce, tomato, and vegan mayo in a whole grain bun"
+  },
+  {
+    "id": 13,
+    "category": "Burgers",
+    "itemName": "Mushroom Swiss Burger",
+    "price": 10.99,
+    "description": "Beef patty with sautéed mushrooms and Swiss cheese in a gourmet bun"
+  },
+  {
+    "id": 2,
+    "category": "Crepes",
+    "itemName": "Nutella Banana Crepe",
+    "price": 10.99,
+    "description": "Delicious crepe filled with Nutella and fresh banana slices."
+  },
+  {
+    "id": 3,
+    "category": "Sandwiches",
+    "itemName": "Club Sandwich",
+    "price": 9.99,
+    "description": "Triple-decker sandwich with turkey, bacon, lettuce, and tomato"
+  },
+  {
+    "id": 20,
+    "category": "Sandwiches",
+    "itemName": "Roast Beef Sandwich",
+    "price": 11.99,
+    "description": "Sliced roast beef with horseradish mayo and lettuce on a baguette"
+  },
+  {
+    "id": 8,
+    "category": "Burgers",
+    "itemName": "Bacon Double Cheeseburger",
+    "price": 11.99,
+    "description": "Double beef patties with bacon and double cheese in a sesame seed bun"
+  },
+  {
+    "id": 14,
+    "category": "Crepes",
+    "itemName": "Cinnamon Sugar Crepe",
+    "price": 8.99,
+    "description": "Sweet crepe with a dusting of cinnamon sugar and a squeeze of lemon."
+  },
+  {
+    "id": 1,
+    "category": "Pizzas",
+    "itemName": "Pepperoni Pizza",
+    "price": 12.99,
+    "description": "Delicious pepperoni topping with mozzarella cheese"
+  },
+  {
+    "id": 15,
+    "category": "Crepes",
+    "itemName": "BBQ Pulled Pork Crepe",
+    "price": 12.99,
+    "description": "Savory crepe with slow-cooked pulled pork and barbecue sauce."
+  },
+  {
+    "id": 10,
+    "category": "Pizzas",
+    "itemName": "Margherita Pizza",
+    "price": 11.99,
+    "description": "Classic Margherita pizza with tomato, fresh mozzarella, and basil."
+  },
+
+  {
+    "id": 12,
+    "category": "Pizzas",
+    "itemName": "Mushroom Pizza",
+    "price": 11.99,
+    "description": "Sliced mushrooms and mozzarella cheese"
+  }
+]
