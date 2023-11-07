@@ -14,12 +14,14 @@ const Header = () => {
           <button
             type="button"
             className="btn bg-danger text-light fs-3 px-3 py-2 me-3 fw-bold"
+            onClick={() => navigate("/signin")}
           >
             Sign In
           </button>
           <button
             type="button"
             className="btn bg-light text-dark fs-3 px-3 py-2 me-3 fw-bold"
+            onClick={() => navigate("/signup")}
           >
             Sign Up
           </button>
