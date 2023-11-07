@@ -4,6 +4,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions, Grid } from "@mui/material";
 import "./card.css";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../store/slices/cartItems";
 export default function ProudctCard(props) {
   const cardStyle = {
     display: "flex",
@@ -11,7 +13,7 @@ export default function ProudctCard(props) {
     height: "400px",
     boxShadow: "5px 5px 5px 5px darkgrey",
   };
-
+  const dispatch = useDispatch();
   return (
     <Grid container spacing={4}>
       {props.products.map((product, index) => (
@@ -38,8 +40,16 @@ export default function ProudctCard(props) {
               <Typography size="small" color="primary" fontSize={"large"}>
                 {product.price} EGP
               </Typography>
-              <Button size="small" color="primary" variant="contained">
-                GO to product
+              <Button
+                size="small"
+                color="primary"
+                variant="contained"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(addItem(product));
+                }}
+              >
+                Add to Cart
               </Button>
             </CardActions>
           </Card>

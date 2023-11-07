@@ -3,7 +3,7 @@
 // import Cart from "./Cart";
 // import Profile from "./Profile";
 
-import ContactUs from "./ContactUs";
+import ContactUs from "./components/ContactUs";
 
 // import ProfileEdit from "./ProfileEdit";
 const Main = () => {

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
-      <div className="footer bg-dark d-flex justify-content-around fs-4 text-light align-items-center py-3">
+      <div className="footer bg-dark d-flex justify-content-around fs-4 text-light align-items-center py-1">
         <Link to="/contactUs" className="text-light text-decoration-none">
           Contact Us
         </Link>

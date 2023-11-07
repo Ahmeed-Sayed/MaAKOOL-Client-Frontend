@@ -9,6 +9,9 @@ import ContactUs from "./components/ContactUs";
 import Profile from "./components/Profile";
 import ProfileEdit from "./components/ProfileEdit";
 import BrowseCatg from "./components/BrowseCatg";
+import SignUp from "./components/SignUp/SignUp";
+import SignIn from "./components/SignIn/SignIn";
+
 function App() {
   return (
     <>
@@ -22,6 +25,8 @@ function App() {
           <Route path="/contactUs" element={<ContactUs />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/edit" element={<ProfileEdit />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
         <Footer />
       </BrowserRouter>
