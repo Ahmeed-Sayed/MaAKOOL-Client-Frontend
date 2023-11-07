@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./profile.css";
 
 const ProfileInfo = () => {
+  const navigate = useNavigate();
   return (
     <>
-      <section style={{ backgroundColor: "#eee" }} className="profileSection">
+      <section className="profileSection">
         <div className="container py-5 fs-5">
           <div className="row">
             <div className="col">
@@ -37,7 +38,11 @@ const ProfileInfo = () => {
                   <h5 className="my-3">John Smith</h5>
                   <p className="text-muted mb-1">emailExample@gmail.com</p>
                   <div className="d-flex justify-content-center mb-2">
-                    <button type="button" className="btn btn-primary mt-3 fs-5">
+                    <button
+                      type="button"
+                      className="btn btn-primary mt-3 fs-5"
+                      onClick={() => navigate("/profile/edit")}
+                    >
                       Edit Profile
                     </button>
                   </div>

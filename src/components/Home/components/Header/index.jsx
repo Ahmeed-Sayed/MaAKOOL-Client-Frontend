@@ -59,17 +59,17 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse">
+              <Link className="nav-link text-light" to="/browse/Pizzas">
                 Pizza
               </Link>
             </li>
             <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse">
+              <Link className="nav-link text-light" to="/browse/Burgers">
                 Burgers
               </Link>
             </li>
             <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse">
+              <Link className="nav-link text-light" to="/browse/Sandwiches">
                 Sandwiches
               </Link>
             </li>
