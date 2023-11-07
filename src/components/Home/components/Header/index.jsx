@@ -2,8 +2,15 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import "./header.css"; // Import a custom CSS file for styling
 import { Badge } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const Header = () => {
   const navigate = useNavigate();
+  const cartItems = useSelector((state) => state.cartItems);
+  const totalQuantity = cartItems.reduce(
+    (total, cartItem) => total + cartItem.quantity,
+    0
+  );
+
   return (
     <>
       <div className="upperHeader align-items-center bg-dark d-flex justify-content-between p-3">
@@ -73,11 +80,6 @@ const Header = () => {
                 Sandwiches
               </Link>
             </li>
-            <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse">
-                Desserts
-              </Link>
-            </li>
           </ul>
           <div className="d-flex me-5">
             <button
@@ -88,7 +90,11 @@ const Header = () => {
               Place your order
             </button>
             <div className="d-flex align-items-center text-light position-relative">
-              <Badge badgeContent={17} fontSize="large" color="primary">
+              <Badge
+                badgeContent={totalQuantity}
+                fontSize="large"
+                color="primary"
+              >
                 <ShoppingCartIcon sx={{ fontSize: 40 }} />
               </Badge>
             </div>
