@@ -71,11 +71,6 @@ const Header = () => {
                 Sandwiches
               </Link>
             </li>
-            <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse">
-                Desserts
-              </Link>
-            </li>
           </ul>
           <div className="d-flex me-5">
             <button

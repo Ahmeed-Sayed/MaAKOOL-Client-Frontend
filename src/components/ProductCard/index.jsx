@@ -9,6 +9,7 @@ export default function ProudctCard(props) {
     display: "flex",
     flexDirection: "column",
     height: "400px",
+    boxShadow: "5px 5px 5px 5px darkgrey",
   };
 
   return (

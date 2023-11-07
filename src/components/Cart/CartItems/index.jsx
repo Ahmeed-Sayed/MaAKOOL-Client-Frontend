@@ -9,7 +9,7 @@ const CartItems = () => {
   return (
     <>
       <h1 className="mt-5 ms-5"> Shopping Cart </h1>
-      <div className="d-flex justify-content-evenly align-items-center my-5">
+      <div className="d-flex justify-content-evenly align-items-center my-5 shadow shadow-lg rounded mx-5 py-5">
         <div className="w-75">
           <div className="d-flex justify-content-between mb-4">
             <img
