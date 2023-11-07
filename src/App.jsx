@@ -8,10 +8,9 @@ import HomePage from "./components/Home";
 import ContactUs from "./components/ContactUs";
 import Profile from "./components/Profile";
 import ProfileEdit from "./components/ProfileEdit";
-import BrowseCatg from "./components/BrowseCatg";
 import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignIn/SignIn";
-
+import BrowseCatg from "./components/BrowseCatg";
 function App() {
   return (
     <>
