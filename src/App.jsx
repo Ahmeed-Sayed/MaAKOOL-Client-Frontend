@@ -17,7 +17,7 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage/>} />
           <Route path="/browse" element={<Browsing />} />
           <Route path="/browse/:catgName" element={<BrowseCatg />} />
           <Route path="/cart" element={<Cart />} />
