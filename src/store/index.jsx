@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import cartItems from "./slices/cartItems";
-export default configureStore({
+import orderChange from "./slices/orderItems";
+export const store = configureStore({
   reducer: {
-    cartItems,
+    order: orderChange,
   },
 });

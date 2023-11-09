@@ -1,22 +1,34 @@
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import "./header.css"; // Import a custom CSS file for styling
-import { Badge } from "@mui/material";
+import { Badge, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+
 const Header = () => {
   const navigate = useNavigate();
-  const cartItems = useSelector((state) => state.cartItems);
-  const totalQuantity = cartItems.reduce(
-    (total, cartItem) => total + cartItem.quantity,
-    0
-  );
-
+  const order = useSelector((state) => state.order.cartItems);
+  const loading = useSelector((state) => state.order.loading);
+  const [totalQuantity, setTotalQuantity] = useState(0);
+  useEffect(() => {
+    let totalQuantity = 0;
+    console.log(order, order.length);
+    if (order && !loading && order.orderItems.length > 0) {
+      totalQuantity = order.orderItems.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
+    }
+    setTotalQuantity(totalQuantity);
+  }, [order, loading]);
   return (
     <>
       <div className="upperHeader align-items-center bg-dark d-flex justify-content-between p-3">
-        <div className="upperHeaderLeft bg-light rounded">
-          <h3 className="px-3 py-3 fw-bold">Fast Food Restaurant</h3>
-        </div>
+        <Box sx={{ display: { xs: "none", sm: "block" } }}>
+          <div className="upperHeaderLeft bg-light rounded">
+            <h3 className="px-3 py-3 fw-bold">Fast Food Restaurant</h3>
+          </div>
+        </Box>
         <div className="upperHeaderRight d-flex flex-row">
           <button
             type="button"

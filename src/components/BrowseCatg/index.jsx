@@ -15,9 +15,5 @@ export default function BrowseCatg() {
   const categoryProducts = products.filter(
     (product) => product.category === selectedCategory.name
   );
-  return (
-    <>
-      <ProudctCard products={categoryProducts} />
-    </>
-  );
+  return <ProudctCard products={categoryProducts} />;
 }
