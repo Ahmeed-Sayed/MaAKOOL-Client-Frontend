@@ -77,7 +77,7 @@ export default function ProudctCard() {
                   // Make the API call
                   try {
                     const response = await axios.post(
-                      "http://localhost:8000/cart/add_to_order/",
+                      "http://localhost:8000/orders/add_to_order/",
                       {
                         product: product.id,
                       }

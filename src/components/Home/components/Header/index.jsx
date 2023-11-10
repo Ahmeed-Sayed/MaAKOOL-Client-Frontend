@@ -12,7 +12,6 @@ const Header = () => {
   const [totalQuantity, setTotalQuantity] = useState(0);
   useEffect(() => {
     let totalQuantity = 0;
-    console.log(order, order.length);
     if (order && !loading && order.orderItems.length > 0) {
       totalQuantity = order.orderItems.reduce(
         (total, item) => total + item.quantity,

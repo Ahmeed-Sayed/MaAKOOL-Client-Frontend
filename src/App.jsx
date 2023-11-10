@@ -19,8 +19,8 @@ import { increment, setCart, setLoading } from "./store/slices/orderItems";
 
 function App() {
   const fetchOrder = async () => {
-    const { data } = await axios.get("http://localhost:8000/cart/orders/");
-    return data[0];
+    const { data } = await axios.get("http://localhost:8000/orders/orders/");
+    return data.length > 0 ? data[0] : null;
   };
   const dispatch = useDispatch();
   const { data: order, isLoading, error } = useQuery("order", fetchOrder);
