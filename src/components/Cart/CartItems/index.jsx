@@ -30,9 +30,30 @@ const OrderItemsComponent = () => {
     setOpen(false);
   };
 
+<<<<<<< HEAD
   const order = useSelector((state) => state.order.cartItems);
   const loading = useSelector((state) => state.order.loading);
   const queryClient = useQueryClient();
+=======
+  const handleConfirmOrder = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/account/user", {
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        // User is authenticated, proceed with order confirmation logic
+        console.log("Order confirmed!");
+      } else {
+        // User is not authenticated, redirect to sign-in page
+        navigate("/signin");
+      }
+    } catch (error) {
+      console.error("Error checking user authentication:", error);
+    }
+  };
+>>>>>>> main
 
   return (
     <>
@@ -157,6 +178,7 @@ const OrderItemsComponent = () => {
             <div className="text-center mt-5">
               <h1>Your Shopping Cart is Empty</h1>
             </div>
+<<<<<<< HEAD
           )}
         </>
       )}
@@ -177,6 +199,23 @@ const OrderItemsComponent = () => {
           Ordered successfully submitted!
         </Alert>
       </Snackbar>
+=======
+          ))}
+          <hr />
+          <div className="d-flex justify-content-around">
+            <button className="btn bg-light btn-lg fs-2 px-5 border border-1 border-dark text-dark">
+              Total Cost: {totalCost.toFixed(2)}EGP
+            </button>
+            <button
+              className="btn bg-danger btn-lg fs-2 px-5 text-light"
+              onClick={() => handleConfirmOrder()}
+            >
+              Confirm Order
+            </button>
+          </div>
+        </div>
+      </div>
+>>>>>>> main
     </>
   );
 };
