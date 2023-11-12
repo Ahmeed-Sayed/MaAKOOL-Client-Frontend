@@ -3,14 +3,12 @@ import "./header.css"; // Import a custom CSS file for styling
 import { Badge, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { resetCart } from "../../../../store/slices/cartItems";
 import { useDispatch } from "react-redux";
 
-
-
 const Header = () => {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cartItems);
@@ -22,9 +20,9 @@ const Header = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/account/user', {
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
+        const response = await fetch("http://localhost:8000/account/user", {
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
         });
 
         if (response.ok) {
@@ -32,11 +30,11 @@ const Header = () => {
           setUsername(content.username);
         } else {
           // If not authenticated, navigate to the login page
-          setUsername(''); // Set username to an empty string
+          setUsername(""); // Set username to an empty string
           // navigate('/signin');
         }
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
     };
 
@@ -46,18 +44,18 @@ const Header = () => {
   // Log out function
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:8000/account/logout', {
-        method: 'POST',
-        credentials: 'include',
+      const response = await fetch("http://localhost:8000/account/logout", {
+        method: "POST",
+        credentials: "include",
       });
       if (response.ok) {
         dispatch(resetCart());
-        navigate('/');
+        navigate("/");
       } else {
-        console.error('Logout failed');
+        console.error("Logout failed");
       }
     } catch (error) {
-      console.error('Error during logout:', error);
+      console.error("Error during logout:", error);
     }
   };
 
