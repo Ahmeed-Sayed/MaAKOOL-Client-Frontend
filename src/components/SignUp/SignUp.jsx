@@ -18,20 +18,20 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 function SignUp() {
   const [formData, setFormData] = useState({
     email: "",
-    phone: "",
-    First_name: "",
-    Last_name: "",
-    Address: "",
+    // phone: "",
+    username: "",
+    // Last_name: "",
+    // Address: "",
     password: "",
     confirmPassword: "",
   });
 
   const [formErrors, setFormErrors] = useState({
     emailError: "",
-    phoneError: "",
-    First_nameError: "",
-    Last_nameError: "",
-    AddressError: "",
+    // phoneError: "",
+    usernameError: "",
+    // Last_nameError: "",
+    // AddressError: "",
     passwordError: "",
     confirmPasswordError: "",
   });
@@ -59,22 +59,22 @@ function SignUp() {
           ? "Please enter a valid email address."
           : "";
         break;
-      case "phone":
-        errors.phoneError = !validatePhone(value)
-          ? "Please enter a valid phone number."
-          : "";
+      // case "phone":
+      //   errors.phoneError = !validatePhone(value)
+      //     ? "Please enter a valid phone number."
+      //     : "";
+      //   break;
+      case "username":
+        errors.usernameError =
+          value.trim() === "" ? "username is required." : "";
         break;
-      case "First_name":
-        errors.First_nameError =
-          value.trim() === "" ? "First name is required." : "";
-        break;
-      case "Last_name":
-        errors.Last_nameError =
-          value.trim() === "" ? "Last name is required." : "";
-        break;
-      case "Address":
-        errors.AddressError = value.trim() === "" ? "Address is required." : "";
-        break;
+      // case "Last_name":
+      //   errors.Last_nameError =
+      //     value.trim() === "" ? "Last name is required." : "";
+      //   break;
+      // case "Address":
+      //   errors.AddressError = value.trim() === "" ? "Address is required." : "";
+      //   break;
       case "password":
         errors.passwordError = !validatePassword(value)
           ? "Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one special character."
@@ -91,11 +91,11 @@ function SignUp() {
     setFormErrors(errors);
   };
 
-  const validatePhone = (phone) => {
-    // Regular expression for phone number validation
-    const phoneRegex = /^\d{10}$/;
-    return phoneRegex.test(phone);
-  };
+  // const validatePhone = (phone) => {
+  //   // Regular expression for phone number validation
+  //   const phoneRegex = /^\d{10}$/;
+  //   return phoneRegex.test(phone);
+  // };
 
   const validateEmail = (email) => {
     // Regular expression for email validation
@@ -149,12 +149,12 @@ function SignUp() {
               <Grid item xs={6} sm={6}>
                 <TextField
                   fullWidth
-                  label="First Name"
+                  label="username"
                   type="text"
-                  name="First_name"
+                  name="username"
                   value={formData.name}
                   onChange={handleInputChange}
-                  onBlur={() => validateField("First_name", formData.name)}
+                  onBlur={() => validateField("username", formData.name)}
                   required
                   variant="outlined"
                   error={Boolean(formErrors.nameError)}
@@ -162,7 +162,7 @@ function SignUp() {
                 />
               </Grid>
 
-              <Grid item xs={6}>
+              {/* <Grid item xs={6}>
                 <TextField
                   fullWidth
                   label="Last Name"
@@ -176,8 +176,8 @@ function SignUp() {
                   error={Boolean(formErrors.usernameError)}
                   helperText={formErrors.usernameError}
                 />
-              </Grid>
-              <Grid item xs={12} sm={12}>
+              </Grid> */}
+              {/* <Grid item xs={12} sm={12}>
                 <TextField
                   fullWidth
                   label="Address"
@@ -191,7 +191,7 @@ function SignUp() {
                   error={Boolean(formErrors.AddressError)}
                   helperText={formErrors.AddressError}
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={6} sm={6}>
                 <TextField
                   fullWidth
@@ -207,7 +207,7 @@ function SignUp() {
                   helperText={formErrors.emailError}
                 />
               </Grid>
-              <Grid item xs={6} sm={6}>
+              {/* <Grid item xs={6} sm={6}>
                 <TextField
                   fullWidth
                   label="Phone number"
@@ -221,7 +221,7 @@ function SignUp() {
                   error={Boolean(formErrors.phoneError)}
                   helperText={formErrors.phoneError}
                 />
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={6}>
                 <FormControl fullWidth variant="outlined">

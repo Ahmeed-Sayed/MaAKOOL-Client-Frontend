@@ -4,34 +4,22 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions, Grid } from "@mui/material";
 import "./card.css";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import { useQueryClient } from "react-query";
-export default function ProudctCard() {
+
+export default function ProudctCard(props) {
   const cardStyle = {
     display: "flex",
     flexDirection: "column",
     height: "400px",
     boxShadow: "4px 1px 26px 0px rgba(0, 0, 0, 0.1)",
   };
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/resturant/products/")
-      .then((response) => {
-        setProducts(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error!", error);
-      });
-  }, []);
   const queryClient = useQueryClient();
-
-  return (
+  return !props.products ? (
+    <div> No Data To show</div>
+  ) : (
     <Grid container spacing={2} p={2.5}>
-      {products.map((product, index) => (
+      {props.products.map((product, index) => (
         <Grid item key={index} xs={12} xl={2} sm={4} md={3}>
           <Card sx={{ padding: 1.5 }} style={cardStyle}>
             <CardActionArea style={{ flex: "1" }}>
@@ -55,26 +43,12 @@ export default function ProudctCard() {
               <Typography size="small" color="primary" fontSize={"large"}>
                 {product.price} EGP
               </Typography>
-              {/* <Button
-                size="small"
-                color="primary"
-                variant="contained"
-                // onClick={(e) => {
-                //   e.stopPropagation();
-                //   dispatch(addItem(product));
-                // }}
-              >
-                Add to Cart
-              </Button> */}
               <Button
                 size="small"
                 color="primary"
                 variant="contained"
                 onClick={async (e) => {
                   e.stopPropagation();
-                  // dispatch(addItem(product));
-
-                  // Make the API call
                   try {
                     const response = await axios.post(
                       "http://localhost:8000/orders/add_to_order/",
@@ -83,7 +57,6 @@ export default function ProudctCard() {
                       }
                     );
                     queryClient.invalidateQueries("order");
-
                     console.log(response.data.message);
                   } catch (error) {
                     console.error(error);

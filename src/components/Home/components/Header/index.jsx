@@ -77,18 +77,24 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse/Pizzas">
-                Pizza
-              </Link>
-            </li>
-            <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse/Burgers">
+              <Link className="nav-link text-light" to="/browse/1">
                 Burgers
               </Link>
             </li>
             <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse/Sandwiches">
+              <Link className="nav-link text-light" to="/browse/3">
                 Sandwiches
+              </Link>
+            </li>
+            <li className="nav-item mx-4">
+              <Link className="nav-link text-light" to="/browse/2">
+                Pizzas
+              </Link>
+            </li>
+
+            <li className="nav-item mx-4">
+              <Link className="nav-link text-light" to="/browse/4">
+                Crepes
               </Link>
             </li>
           </ul>

@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   AddCircleSharp,
   DeleteSharp,
@@ -8,8 +9,27 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useQueryClient } from "react-query";
 import { CircularProgress } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const OrderItemsComponent = () => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const order = useSelector((state) => state.order.cartItems);
   const loading = useSelector((state) => state.order.loading);
   const queryClient = useQueryClient();
@@ -27,7 +47,7 @@ const OrderItemsComponent = () => {
             <>
               <h1 className="mt-5 ms-5">Shopping Cart</h1>
 
-              <div className="d-flex justify-content-evenly align-items-center my-5 shadow shadow-lg rounded mx-5 py-5 ">
+              <div className="d-flex justify-content-evenly align-items-center my-5 shadow shadow-lg rounded mx-5 py-5 position-relative">
                 <div className="w-75">
                   {order.orderItems.map((orderItem) => (
                     <div key={orderItem.product.id}>
@@ -112,7 +132,21 @@ const OrderItemsComponent = () => {
                     <button className="btn bg-light btn-lg fs-2 px-5 border border-1 border-dark text-dark">
                       Total Cost: {order.total_price}EGP
                     </button>
-                    <button className="btn bg-danger btn-lg fs-2 px-5 text-light">
+                    <button
+                      className="btn bg-danger btn-lg fs-2 px-5 text-light"
+                      onClick={async () => {
+                        try {
+                          const response = await axios.post(
+                            "http://localhost:8000/orders/submit_order"
+                          );
+                          queryClient.invalidateQueries("order");
+                          handleClick();
+                          return response;
+                        } catch (error) {
+                          console.error(error);
+                        }
+                      }}
+                    >
                       Confirm Order
                     </button>
                   </div>
@@ -126,6 +160,23 @@ const OrderItemsComponent = () => {
           )}
         </>
       )}
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        anchorOrigin={{
+          horizontal: "center",
+          vertical: "top",
+        }}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          sx={{ width: "100%", fontSize: "20px" }}
+        >
+          Ordered successfully submitted!
+        </Alert>
+      </Snackbar>
     </>
   );
 };

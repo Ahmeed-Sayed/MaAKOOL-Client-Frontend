@@ -3,7 +3,7 @@ import signin_img from "../../assets/Images/SignIn_img.png";
 function SignIn() {
   return (
     <>
-      <div className="container-fluid">
+      <div className="container mt-3">
         <div className="row">
           <div className="col-md-7">
             <img
@@ -20,10 +20,7 @@ function SignIn() {
           </div>
           <div className="col-md-5 mt-5">
             <h1 className="text-center mb-0">Login</h1>
-            {/* <hr className=' w-25 mx-auto bg-danger text-danger ' /> */}
-            <div className="mt-0 mb-3 w-25 mx-auto  border-1 rounded border-danger text-center text-danger fw-bold">
-              ________
-            </div>
+            <hr className=" w-25 mx-auto bg-danger text-danger  " />
             <form>
               <div className="form-floating mb-3">
                 <input

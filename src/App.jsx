@@ -16,16 +16,25 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useEffect } from "react";
 import { increment, setCart, setLoading } from "./store/slices/orderItems";
+import Search from "./components/Search";
+import NotFound from "./components/NotFound";
 
 function App() {
   const fetchOrder = async () => {
-    const { data } = await axios.get("http://localhost:8000/orders/orders/");
-    return data.length > 0 ? data[0] : null;
+    try {
+      const { data } = await axios.get("http://localhost:8000/orders/orders/");
+      const nonOrderedOrders = data.filter((order) => order.ordered === false);
+      return nonOrderedOrders.length > 0 ? nonOrderedOrders[0] : null;
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      return null;
+    }
   };
+
   const dispatch = useDispatch();
   const { data: order, isLoading, error } = useQuery("order", fetchOrder);
   useEffect(() => {
-    if (order && !isLoading) {
+    if (!isLoading) {
       dispatch(setCart(order));
       dispatch(increment());
     }
@@ -33,7 +42,7 @@ function App() {
 
   useEffect(() => {
     dispatch(setLoading(isLoading));
-  }, [dispatch, isLoading]);
+  }, [dispatch, isLoading, order]);
   if (!isLoading && !error) {
     return (
       <>
@@ -42,13 +51,16 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/browse" element={<Browsing />} />
-            <Route path="/browse/:catgName" element={<BrowseCatg />} />
+            <Route path="/browse/:catgNum" element={<BrowseCatg />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/contactUs" element={<ContactUs />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/edit" element={<ProfileEdit />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/not-found" element={<NotFound />} />
+            <Route path="/*" element={<NotFound />} />
           </Routes>
           <Footer />
         </BrowserRouter>
