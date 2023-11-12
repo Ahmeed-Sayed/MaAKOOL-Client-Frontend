@@ -1,5 +1,7 @@
 import "./App.css";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
+// import { AuthProvider } from "./context/AuthContext"
+// import PrivateRoute from "./apis/privateRoute";
 import Header from "./components/Home/components/Header";
 import Footer from "./components/Home/components/Footer";
 import Browsing from "./components/Browsing";
@@ -10,24 +12,26 @@ import Profile from "./components/Profile";
 import ProfileEdit from "./components/ProfileEdit";
 import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignIn/SignIn";
+// import Dashboard from "./components/dashboard/dashboard";
 import BrowseCatg from "./components/BrowseCatg";
+
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<HomePage/>} />
-          <Route path="/browse" element={<Browsing />} />
-          <Route path="/browse/:catgName" element={<BrowseCatg />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/contactUs" element={<ContactUs />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/edit" element={<ProfileEdit />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-        </Routes>
-        <Footer />
+          <Header />
+          <Routes>
+            <Route path="/" element={<HomePage/>} exact/>
+            <Route path="/browse" element={<Browsing />} />
+            <Route path="/browse/:catgName" element={<BrowseCatg />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/contactUs" element={<ContactUs />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/edit" element={<ProfileEdit />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+          </Routes>
+          <Footer />
       </BrowserRouter>
     </>
   );
