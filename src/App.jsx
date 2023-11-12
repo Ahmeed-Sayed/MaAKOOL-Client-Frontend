@@ -14,27 +14,61 @@ import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignIn/SignIn";
 // import Dashboard from "./components/dashboard/dashboard";
 import BrowseCatg from "./components/BrowseCatg";
+import { useQuery } from "react-query";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { useEffect } from "react";
+import { increment, setCart, setLoading } from "./store/slices/orderItems";
+import Search from "./components/Search";
+import NotFound from "./components/NotFound";
 
 function App() {
-  return (
-    <>
-      <BrowserRouter>
+  const fetchOrder = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:8000/orders/orders/");
+      const nonOrderedOrders = data.filter((order) => order.ordered === false);
+      return nonOrderedOrders.length > 0 ? nonOrderedOrders[0] : null;
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      return null;
+    }
+  };
+
+  const dispatch = useDispatch();
+  const { data: order, isLoading, error } = useQuery("order", fetchOrder);
+  useEffect(() => {
+    if (!isLoading) {
+      dispatch(setCart(order));
+      dispatch(increment());
+    }
+  }, [dispatch, isLoading, order]);
+
+  useEffect(() => {
+    dispatch(setLoading(isLoading));
+  }, [dispatch, isLoading, order]);
+  if (!isLoading && !error) {
+    return (
+      <>
+        <BrowserRouter>
           <Header />
           <Routes>
-            <Route path="/" element={<HomePage/>} exact/>
+            <Route path="/" element={<HomePage />} />
             <Route path="/browse" element={<Browsing />} />
-            <Route path="/browse/:catgName" element={<BrowseCatg />} />
+            <Route path="/browse/:catgNum" element={<BrowseCatg />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/contactUs" element={<ContactUs />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/edit" element={<ProfileEdit />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/not-found" element={<NotFound />} />
+            <Route path="/*" element={<NotFound />} />
           </Routes>
           <Footer />
-      </BrowserRouter>
-    </>
-  );
+        </BrowserRouter>
+      </>
+    );
+  }
 }
-
 export default App;

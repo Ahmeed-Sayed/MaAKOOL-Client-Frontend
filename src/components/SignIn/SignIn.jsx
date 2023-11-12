@@ -34,10 +34,20 @@ const SignIn = () => {
 
   return (
     <>
-      <div className="container-fluid">
+      <div className="container mt-3">
         <div className="row">
           <div className="col-md-7">
-            <img src={signin_img} alt="signin image" style={{ width: '100%', height: '600px', objectFit: 'fill', objectPosition: 'center', borderRadius: '15px' }} />
+            <img
+              src={signin_img}
+              alt="signin image"
+              style={{
+                width: "100%",
+                height: "600px",
+                objectFit: "fill",
+                objectPosition: "center",
+                borderRadius: "15px",
+              }}
+            />
           </div>
           <div className="col-md-5 mt-5">
             <h1 className="text-center mb-0">Login</h1>

@@ -4,21 +4,24 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions, Grid } from "@mui/material";
 import "./card.css";
-import { useDispatch } from "react-redux";
-import { addItem } from "../../store/slices/cartItems";
+import axios from "axios";
+import { useQueryClient } from "react-query";
+
 export default function ProudctCard(props) {
   const cardStyle = {
     display: "flex",
     flexDirection: "column",
     height: "400px",
-    boxShadow: "5px 5px 5px 5px darkgrey",
+    boxShadow: "4px 1px 26px 0px rgba(0, 0, 0, 0.1)",
   };
-  const dispatch = useDispatch();
-  return (
-    <Grid container spacing={4}>
+  const queryClient = useQueryClient();
+  return !props.products ? (
+    <div className="fs-1 text-center mt-1 "> No Data To show</div>
+  ) : (
+    <Grid container spacing={2} p={2.5}>
       {props.products.map((product, index) => (
-        <Grid item key={index}>
-          <Card sx={{ maxWidth: 345, padding: 1.5 }} style={cardStyle}>
+        <Grid item key={index} xs={12} xl={2} sm={4} md={3}>
+          <Card sx={{ padding: 1.5 }} style={cardStyle}>
             <CardActionArea style={{ flex: "1" }}>
               <CardMedia
                 component="img"
@@ -29,7 +32,7 @@ export default function ProudctCard(props) {
               />
               <CardContent style={{ flex: "1" }}>
                 <Typography gutterBottom variant="h5" component="div">
-                  {product.itemName}
+                  {product.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {product.description}
@@ -44,9 +47,20 @@ export default function ProudctCard(props) {
                 size="small"
                 color="primary"
                 variant="contained"
-                onClick={(e) => {
+                onClick={async (e) => {
                   e.stopPropagation();
-                  dispatch(addItem(product));
+                  try {
+                    const response = await axios.post(
+                      "http://localhost:8000/orders/add_to_order/",
+                      {
+                        product: product.id,
+                      }
+                    );
+                    queryClient.invalidateQueries("order");
+                    console.log(response.data.message);
+                  } catch (error) {
+                    console.error(error);
+                  }
                 }}
               >
                 Add to Cart

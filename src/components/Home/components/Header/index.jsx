@@ -1,6 +1,6 @@
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import "./header.css"; // Import a custom CSS file for styling
-import { Badge } from "@mui/material";
+import { Badge, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from 'react';
@@ -12,12 +12,19 @@ const Header = () => {
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cartItems);
-  const totalQuantity = cartItems.reduce(
-    (total, cartItem) => total + cartItem.quantity,
-    0
-  );
-
+  const order = useSelector((state) => state.order.cartItems);
+  const loading = useSelector((state) => state.order.loading);
+  const [totalQuantity, setTotalQuantity] = useState(0);
+  useEffect(() => {
+    let totalQuantity = 0;
+    if (order && !loading && order.orderItems.length > 0) {
+      totalQuantity = order.orderItems.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
+    }
+    setTotalQuantity(totalQuantity);
+  }, [order, loading]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -63,9 +70,11 @@ const Header = () => {
   return (
     <>
       <div className="upperHeader align-items-center bg-dark d-flex justify-content-between p-3">
-        <div className="upperHeaderLeft bg-light rounded">
-          <h3 className="px-3 py-3 fw-bold">Fast Food Restaurant</h3>
-        </div>
+        <Box sx={{ display: { xs: "none", sm: "block" } }}>
+          <div className="upperHeaderLeft bg-light rounded">
+            <h3 className="px-3 py-3 fw-bold">Fast Food Restaurant</h3>
+          </div>
+        </Box>
         <div className="upperHeaderRight d-flex flex-row">
           {username && (
             <>
@@ -110,6 +119,20 @@ const Header = () => {
         className="navbar navbar-expand-lg navbar-light "
         style={{ backgroundColor: "#DC3545" }}
       >
+        <div className="d-flex jusify-content-between align-items-end fs-4">
+          <Link
+            className="text-decoration-none text-light fw-bold ms-3  px-3"
+            to="/"
+          >
+            Home
+          </Link>
+          <Link
+            className="text-decoration-none text-light  ms-3 fw-bold px-3"
+            to="/browse"
+          >
+            All
+          </Link>
+        </div>
         <button
           className="navbar-toggler"
           type="button"
@@ -121,34 +144,31 @@ const Header = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
         <div
           className="collapse navbar-collapse justify-content-between"
           id="navbarNav"
         >
           <ul className="navbar-nav ms-3  fs-4">
-            <li className="nav-item mx-4 ">
-              <Link className="nav-link text-light fw-bold" to="/">
-                Home
-              </Link>
-            </li>
             <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse">
-                All
-              </Link>
-            </li>
-            <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse/Pizzas">
-                Pizza
-              </Link>
-            </li>
-            <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse/Burgers">
+              <Link className="nav-link text-light" to="/browse/1">
                 Burgers
               </Link>
             </li>
             <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse/Sandwiches">
+              <Link className="nav-link text-light" to="/browse/3">
                 Sandwiches
+              </Link>
+            </li>
+            <li className="nav-item mx-4">
+              <Link className="nav-link text-light" to="/browse/2">
+                Pizzas
+              </Link>
+            </li>
+
+            <li className="nav-item mx-4">
+              <Link className="nav-link text-light" to="/browse/4">
+                Crepes
               </Link>
             </li>
           </ul>
