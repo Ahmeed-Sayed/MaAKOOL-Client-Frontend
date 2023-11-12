@@ -54,8 +54,6 @@ const SignIn = () => {
               <button type="submit" className="mt-3 btn btn-lg btn-danger w-100">Log In</button>
             </form>
           </div>
-
-
         </div>
       </div>
     </>

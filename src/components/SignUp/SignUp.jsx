@@ -334,7 +334,6 @@ export default function SignUp() {
         </label>
         <input type="submit" value="Submit" />
       </form>
-      hello register
     </div>
   );
 }

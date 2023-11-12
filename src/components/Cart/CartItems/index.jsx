@@ -42,6 +42,25 @@ const CartItems = () => {
     }
   };
 
+  const handleConfirmOrder = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/account/user", {
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        // User is authenticated, proceed with order confirmation logic
+        console.log("Order confirmed!");
+      } else {
+        // User is not authenticated, redirect to sign-in page
+        navigate("/signin");
+      }
+    } catch (error) {
+      console.error("Error checking user authentication:", error);
+    }
+  };
+
   return (
     <>
       <h1 className="mt-5 ms-5"> Shopping Cart </h1>
@@ -95,7 +114,10 @@ const CartItems = () => {
             <button className="btn bg-light btn-lg fs-2 px-5 border border-1 border-dark text-dark">
               Total Cost: {totalCost.toFixed(2)}EGP
             </button>
-            <button className="btn bg-danger btn-lg fs-2 px-5 text-light">
+            <button
+              className="btn bg-danger btn-lg fs-2 px-5 text-light"
+              onClick={() => handleConfirmOrder()}
+            >
               Confirm Order
             </button>
           </div>
