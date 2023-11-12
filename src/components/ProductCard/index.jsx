@@ -16,7 +16,7 @@ export default function ProudctCard(props) {
   };
   const queryClient = useQueryClient();
   return !props.products ? (
-    <div> No Data To show</div>
+    <div className="fs-1 text-center mt-1 "> No Data To show</div>
   ) : (
     <Grid container spacing={2} p={2.5}>
       {props.products.map((product, index) => (
