@@ -14,24 +14,20 @@ import {
   FormHelperText,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useNavigate } from "react-router";
 
 function SignUp() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
-    // phone: "",
     username: "",
-    // Last_name: "",
-    // Address: "",
     password: "",
     confirmPassword: "",
   });
 
   const [formErrors, setFormErrors] = useState({
     emailError: "",
-    // phoneError: "",
     usernameError: "",
-    // Last_nameError: "",
-    // AddressError: "",
     passwordError: "",
     confirmPasswordError: "",
   });
@@ -41,8 +37,6 @@ function SignUp() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-
-    // Real-time validation
     validateField(name, value);
   };
 
@@ -59,67 +53,39 @@ function SignUp() {
           ? "Please enter a valid email address."
           : "";
         break;
-      // case "phone":
-      //   errors.phoneError = !validatePhone(value)
-      //     ? "Please enter a valid phone number."
-      //     : "";
-      //   break;
       case "username":
         errors.usernameError =
           value.trim() === "" ? "username is required." : "";
         break;
-      // case "Last_name":
-      //   errors.Last_nameError =
-      //     value.trim() === "" ? "Last name is required." : "";
-      //   break;
-      // case "Address":
-      //   errors.AddressError = value.trim() === "" ? "Address is required." : "";
-      //   break;
-      case "password":
-        errors.passwordError = !validatePassword(value)
-          ? "Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one special character."
-          : "";
-        break;
-      case "confirmPassword":
-        errors.confirmPasswordError =
-          value !== formData.password ? "Passwords do not match." : "";
-        break;
+
       default:
         break;
     }
-
     setFormErrors(errors);
   };
 
-  // const validatePhone = (phone) => {
-  //   // Regular expression for phone number validation
-  //   const phoneRegex = /^\d{10}$/;
-  //   return phoneRegex.test(phone);
-  // };
-
   const validateEmail = (email) => {
-    // Regular expression for email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  const validatePassword = (password) => {
-    // Regular expression for password validation
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if there are any errors
     const isValid = Object.values(formErrors).every((error) => error === "");
 
     if (isValid) {
-      // Submit the form or perform other actions here
-      // You can access the form data in the formData object
-      console.log("Form data submitted:", formData);
+      await fetch("http://localhost:8000/account/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      navigate("/signin");
     }
   };
 
@@ -127,7 +93,6 @@ function SignUp() {
     <Container maxWidth="lg">
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-          {/* Place your image component here */}
           <img
             src={signup_img}
             alt="signup image"
@@ -152,46 +117,16 @@ function SignUp() {
                   label="username"
                   type="text"
                   name="username"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  onBlur={() => validateField("username", formData.name)}
-                  required
-                  variant="outlined"
-                  error={Boolean(formErrors.nameError)}
-                  helperText={formErrors.nameError}
-                />
-              </Grid>
-
-              {/* <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  label="Last Name"
-                  type="text"
-                  name="Last_name"
                   value={formData.username}
                   onChange={handleInputChange}
-                  onBlur={() => validateField("Last_name", formData.username)}
+                  onBlur={() => validateField("username", formData.username)}
                   required
                   variant="outlined"
                   error={Boolean(formErrors.usernameError)}
                   helperText={formErrors.usernameError}
                 />
-              </Grid> */}
-              {/* <Grid item xs={12} sm={12}>
-                <TextField
-                  fullWidth
-                  label="Address"
-                  type="text"
-                  name="Address"
-                  value={formData.Address}
-                  onChange={handleInputChange}
-                  onBlur={() => validateField("Address", formData.Address)}
-                  required
-                  variant="outlined"
-                  error={Boolean(formErrors.AddressError)}
-                  helperText={formErrors.AddressError}
-                />
-              </Grid> */}
+              </Grid>
+
               <Grid item xs={6} sm={6}>
                 <TextField
                   fullWidth
@@ -207,21 +142,6 @@ function SignUp() {
                   helperText={formErrors.emailError}
                 />
               </Grid>
-              {/* <Grid item xs={6} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Phone number"
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  onBlur={() => validateField("phone", formData.phone)}
-                  required
-                  variant="outlined"
-                  error={Boolean(formErrors.phoneError)}
-                  helperText={formErrors.phoneError}
-                />
-              </Grid> */}
 
               <Grid item xs={6}>
                 <FormControl fullWidth variant="outlined">
@@ -234,7 +154,6 @@ function SignUp() {
                     onChange={handleInputChange}
                     onBlur={() => validateField("password", formData.password)}
                     required
-                    error={Boolean(formErrors.passwordError)}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton onClick={handleShowPassword} edge="end">
@@ -243,9 +162,6 @@ function SignUp() {
                       </InputAdornment>
                     }
                   />
-                  <FormHelperText error={Boolean(formErrors.passwordError)}>
-                    {formErrors.passwordError}
-                  </FormHelperText>
                 </FormControl>
               </Grid>
               <Grid item xs={6}>
@@ -261,7 +177,6 @@ function SignUp() {
                       validateField("confirmPassword", formData.confirmPassword)
                     }
                     required
-                    error={Boolean(formErrors.confirmPasswordError)}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton onClick={handleShowPassword} edge="end">
@@ -270,26 +185,15 @@ function SignUp() {
                       </InputAdornment>
                     }
                   />
-                  <FormHelperText
-                    error={Boolean(formErrors.confirmPasswordError)}
-                  >
-                    {formErrors.confirmPasswordError}
-                  </FormHelperText>
                 </FormControl>
               </Grid>
               <Grid item xs={6}>
                 <button className="btn btn-dark w-100">Cancel</button>
-                {/* <Button  type="button" variant="outlined"  color="error" size="large" fullWidth>
-              Cancel
-            </Button> */}
               </Grid>
               <Grid item xs={6}>
-                <button className='btn btn-danger  w-100 btn-lg"'>
+                <button className="btn btn-danger w-100 btn-lg">
                   Register
                 </button>
-                {/* <Button type="submit" variant="contained" color="error" size="large" fullWidth>
-              Register
-            </Button> */}
               </Grid>
             </Grid>
           </form>

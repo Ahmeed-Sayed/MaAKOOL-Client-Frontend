@@ -3,10 +3,15 @@ import "./header.css"; // Import a custom CSS file for styling
 import { Badge, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { resetCart } from "../../../../store/slices/cartItems";
+import { useDispatch } from "react-redux";
+
 
 const Header = () => {
+  const [username, setUsername] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const order = useSelector((state) => state.order.cartItems);
   const loading = useSelector((state) => state.order.loading);
   const [totalQuantity, setTotalQuantity] = useState(0);
@@ -20,6 +25,48 @@ const Header = () => {
     }
     setTotalQuantity(totalQuantity);
   }, [order, loading]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/account/user', {
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+        });
+
+        if (response.ok) {
+          const content = await response.json();
+          setUsername(content.username);
+        } else {
+          // If not authenticated, navigate to the login page
+          setUsername(''); // Set username to an empty string
+          // navigate('/signin');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchData();
+  }, [navigate]);
+
+  // Log out function
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/account/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+      if (response.ok) {
+        dispatch(resetCart());
+        navigate('/');
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
   return (
     <>
       <div className="upperHeader align-items-center bg-dark d-flex justify-content-between p-3">
@@ -29,20 +76,42 @@ const Header = () => {
           </div>
         </Box>
         <div className="upperHeaderRight d-flex flex-row">
-          <button
-            type="button"
-            className="btn bg-danger text-light fs-3 px-3 py-2 me-3 fw-bold"
-            onClick={() => navigate("/signin")}
-          >
-            Sign In
-          </button>
-          <button
-            type="button"
-            className="btn bg-light text-dark fs-3 px-3 py-2 me-3 fw-bold"
-            onClick={() => navigate("/signup")}
-          >
-            Sign Up
-          </button>
+          {username && (
+            <>
+              <button
+                type="button"
+                className="btn bg-danger text-light fs-3 px-3 py-2 me-3 fw-bold"
+                onClick={() => navigate("/profile")}
+              >
+                Profile
+              </button>
+              <button
+                type="button"
+                className="btn bg-light text-dark fs-3 px-3 py-2 me-3 fw-bold"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </>
+          )}
+          {!username && (
+            <>
+              <button
+                type="button"
+                className="btn bg-danger text-light fs-3 px-3 py-2 me-3 fw-bold"
+                onClick={() => navigate("/signin")}
+              >
+                Sign In
+              </button>
+              <button
+                type="button"
+                className="btn bg-light text-dark fs-3 px-3 py-2 me-3 fw-bold"
+                onClick={() => navigate("/signup")}
+              >
+                Sign Up
+              </button>
+            </>
+          )}
         </div>
       </div>
 
