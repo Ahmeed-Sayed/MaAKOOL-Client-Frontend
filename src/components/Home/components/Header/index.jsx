@@ -50,6 +50,20 @@ const Header = () => {
         className="navbar navbar-expand-lg navbar-light "
         style={{ backgroundColor: "#DC3545" }}
       >
+        <div className="d-flex jusify-content-between align-items-end fs-4">
+          <Link
+            className="text-decoration-none text-light fw-bold ms-3  px-3"
+            to="/"
+          >
+            Home
+          </Link>
+          <Link
+            className="text-decoration-none text-light  ms-3 fw-bold px-3"
+            to="/browse"
+          >
+            All
+          </Link>
+        </div>
         <button
           className="navbar-toggler"
           type="button"
@@ -61,21 +75,12 @@ const Header = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
         <div
           className="collapse navbar-collapse justify-content-between"
           id="navbarNav"
         >
           <ul className="navbar-nav ms-3  fs-4">
-            <li className="nav-item mx-4 ">
-              <Link className="nav-link text-light fw-bold" to="/">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse">
-                All
-              </Link>
-            </li>
             <li className="nav-item mx-4">
               <Link className="nav-link text-light" to="/browse/1">
                 Burgers
