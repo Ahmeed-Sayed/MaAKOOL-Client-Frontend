@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function SearchField() {
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   const handleSearch = () => {

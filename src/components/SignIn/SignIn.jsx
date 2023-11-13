@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import signin_img from "../../assets/Images/SignIn_img.png";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import { useQueryClient } from "react-query";
 
 const handleLogin = () => {
   const jwtToken = Cookies.get("jwt"); // Replace 'jwt' with your cookie name
@@ -16,7 +17,7 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const queryClient = useQueryClient();
   const submit = async (e) => {
     e.preventDefault();
 
@@ -33,6 +34,8 @@ const SignIn = () => {
 
       if (response.ok) {
         handleLogin();
+        queryClient.invalidateQueries("order");
+
         navigate("/profile");
       } else {
         console.error("Login failed");

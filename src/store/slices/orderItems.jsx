@@ -11,9 +11,6 @@ export const orderChange = createSlice({
   name: "order",
   initialState: initialState,
   reducers: {
-    increment: (state) => {
-      state.cartCount + 1;
-    },
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
@@ -23,6 +20,6 @@ export const orderChange = createSlice({
   },
 });
 
-export const { increment, setCart, setLoading } = orderChange.actions;
+export const { setCart, setLoading } = orderChange.actions;
 
 export default orderChange.reducer;
