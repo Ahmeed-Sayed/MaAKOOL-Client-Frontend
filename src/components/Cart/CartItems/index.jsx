@@ -34,25 +34,6 @@ const OrderItemsComponent = () => {
   const loading = useSelector((state) => state.order.loading);
   const queryClient = useQueryClient();
 
-  const handleConfirmOrder = async () => {
-    try {
-      const response = await fetch("http://localhost:8000/account/user", {
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
-
-      if (response.ok) {
-        // User is authenticated, proceed with order confirmation logic
-        console.log("Order confirmed!");
-      } else {
-        // User is not authenticated, redirect to sign-in page
-        navigate("/signin");
-      }
-    } catch (error) {
-      console.error("Error checking user authentication:", error);
-    }
-  };
-
   return (
     <>
       {loading ? (

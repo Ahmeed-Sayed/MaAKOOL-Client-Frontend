@@ -1,18 +1,18 @@
-import { Link, useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
-import './profile.css';
+import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import "./profile.css";
 
 const ProfileInfo = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/account/user', {
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
+        const response = await fetch("http://localhost:8000/account/user", {
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
         });
 
         if (response.ok) {
@@ -20,10 +20,10 @@ const ProfileInfo = () => {
           setUsername(content.username);
           setEmail(content.email);
         } else {
-          navigate('/signin');
+          navigate("/signin");
         }
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
     };
 
@@ -81,10 +81,10 @@ const ProfileInfo = () => {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-sm-3">
-                      <p className="mb-0">Full Name</p>
+                      <p className="mb-0">Name</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">Johnatan Smith</p>
+                      <p className="text-muted mb-0">{localStorage.username}</p>
                     </div>
                   </div>
                   <hr />
@@ -93,7 +93,7 @@ const ProfileInfo = () => {
                       <p className="mb-0">Email</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">{email}</p>
+                      <p className="text-muted mb-0">{localStorage.email}</p>
                     </div>
                   </div>
                   <hr />
