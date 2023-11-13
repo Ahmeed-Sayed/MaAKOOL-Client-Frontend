@@ -4,15 +4,13 @@ import { Badge, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { resetCart } from "../../../../store/slices/cartItems";
-import { useDispatch } from "react-redux";
+import { useQueryClient } from "react-query";
 
 const Header = () => {
-  const [username, setUsername] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const order = useSelector((state) => state.order.cartItems);
   const loading = useSelector((state) => state.order.loading);
+  const queryClient = useQueryClient();
   const [totalQuantity, setTotalQuantity] = useState(0);
   useEffect(() => {
     let totalQuantity = 0;
@@ -36,6 +34,8 @@ const Header = () => {
         localStorage.removeItem("username");
         localStorage.removeItem("id");
         localStorage.removeItem("email");
+        queryClient.invalidateQueries("order");
+
         navigate("/");
       } else {
         console.error("Logout failed");
@@ -129,7 +129,7 @@ const Header = () => {
         >
           <ul className="navbar-nav ms-3  fs-4">
             <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse/1">
+              <Link className="nav-link text-light" to="/browse/2">
                 Burgers
               </Link>
             </li>
@@ -139,13 +139,13 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse/2">
+              <Link className="nav-link text-light" to="/browse/4">
                 Pizzas
               </Link>
             </li>
 
             <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse/4">
+              <Link className="nav-link text-light" to="/browse/5">
                 Crepes
               </Link>
             </li>

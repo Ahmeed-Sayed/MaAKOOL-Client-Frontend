@@ -1,35 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
 import "./profile.css";
 
 const ProfileInfo = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8000/account/user", {
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        });
-
-        if (response.ok) {
-          const content = await response.json();
-          setUsername(content.username);
-          setEmail(content.email);
-        } else {
-          navigate("/signin");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchData();
-  }, [navigate]);
-
   return (
     <>
       <section className="profileSection">
@@ -63,7 +36,7 @@ const ProfileInfo = () => {
                     style={{ width: 150 }}
                   />
                   <h5 className="my-3"></h5>
-                  <p className="text-muted mb-1">{username}</p>
+                  <p className="text-muted mb-1">{localStorage.username}</p>
                   <div className="d-flex justify-content-center mb-2">
                     <button
                       type="button"

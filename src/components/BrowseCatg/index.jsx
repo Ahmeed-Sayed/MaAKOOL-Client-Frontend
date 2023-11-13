@@ -22,7 +22,7 @@ export default function BrowseCatg() {
   useEffect(() => {
     axios
       .get(
-        `http://127.0.0.1:8000/resturant/category-products/${params.catgNum}`
+        `http://127.0.0.1:8000/resturant/category-products/${params.catgNum}/`
       )
       .then((response) => {
         setProducts(response.data);

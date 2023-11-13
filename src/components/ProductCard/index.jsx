@@ -64,6 +64,7 @@ export default function ProudctCard(props) {
                           "http://localhost:8000/orders/add_to_order/",
                           {
                             product: product.id,
+                            userId: localStorage.id,
                           }
                         );
                         queryClient.invalidateQueries("order");

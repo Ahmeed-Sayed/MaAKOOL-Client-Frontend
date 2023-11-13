@@ -70,6 +70,7 @@ const OrderItemsComponent = () => {
                                   "http://localhost:8000/orders/decrease_from_order/",
                                   {
                                     product: orderItem.product.id,
+                                    userId: localStorage.id,
                                   }
                                 );
                                 queryClient.invalidateQueries("order");
@@ -88,6 +89,7 @@ const OrderItemsComponent = () => {
                                   "http://localhost:8000/orders/add_to_order/",
                                   {
                                     product: orderItem.product.id,
+                                    userId: localStorage.id,
                                   }
                                 );
                                 queryClient.invalidateQueries("order");
@@ -114,6 +116,7 @@ const OrderItemsComponent = () => {
                                   "http://localhost:8000/orders/remove_from_order/",
                                   {
                                     product: orderItem.product.id,
+                                    userId: localStorage.id,
                                   }
                                 );
                                 queryClient.invalidateQueries("order");
@@ -137,7 +140,8 @@ const OrderItemsComponent = () => {
                       onClick={async () => {
                         try {
                           const response = await axios.post(
-                            "http://localhost:8000/orders/submit_order"
+                            "http://localhost:8000/orders/submit_order",
+                            { userId: localStorage.id }
                           );
                           queryClient.invalidateQueries("order");
                           handleClick();
