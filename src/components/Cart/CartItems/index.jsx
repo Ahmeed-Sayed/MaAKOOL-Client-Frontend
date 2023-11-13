@@ -36,32 +36,35 @@ const OrderItemsComponent = () => {
 
   return (
     <>
-      {loading ? (
-        <CircularProgress
-          size={40}
-          sx={{ position: "absolute", top: "50%", left: "50%" }}
-        />
-      ) : (
-        <>
-          {order && order.orderItems.length > 0 ? (
-            <>
-              <h1 className="mt-5 ms-5">Shopping Cart</h1>
+      <div className="mx-5 ">
+        {loading ? (
+          <CircularProgress
+            size={40}
+            sx={{ position: "absolute", top: "50%", left: "50%" }}
+          />
+        ) : (
+          <>
+            {order && order.orderItems.length > 0 ? (
+              <>
+                <h1 className="mt-5 ms-5">Shopping Cart</h1>
 
-              <div className="d-flex justify-content-evenly align-items-center my-5 shadow shadow-lg rounded mx-5 py-5 position-relative">
-                <div className="w-75">
+                <div className="d-flex flex-column justify-content-center align-items-center my-5 mx-5 py-5 shadow-lg rounded position-relative px-5">
                   {order.orderItems.map((orderItem) => (
-                    <div key={orderItem.product.id}>
-                      <div className="d-flex justify-content-between mb-4">
-                        <img
-                          className="rounded"
-                          src="https://dummyimage.com/200x200.png/ff4444/ffffff"
-                          alt="Pizza"
-                        />
-                        <div className="d-flex flex-column text-start justify-content-evenly ms-4 w-25">
-                          <h3>{orderItem.product.name}</h3>
-                          <h5> {orderItem.product.description}</h5>
+                    <div key={orderItem.product.id} className="w-100 mb-5">
+                      <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between mb-4">
+                        <div className="text-center text-lg-start mb-3 mb-lg-0">
+                          <img
+                            className="rounded"
+                            src="https://dummyimage.com/200x200.png/ff4444/ffffff"
+                            alt="Pizza"
+                            style={{ maxWidth: "100%", height: "auto" }}
+                          />
                         </div>
-                        <div className="d-flex align-items-center mx-5">
+                        <div className="text-center text-lg-start d-flex flex-column justify-content-evenly ">
+                          <h3>{orderItem.product.name}</h3>
+                          <h5>{orderItem.product.description}</h5>
+                        </div>
+                        <div className="d-flex align-items-center justify-content-center justify-content-lg-between mx-5 mx-lg-0">
                           <RemoveCircleSharp
                             sx={{ fontSize: "60px", cursor: "pointer" }}
                             onClick={async () => {
@@ -100,10 +103,10 @@ const OrderItemsComponent = () => {
                             }}
                           />
                         </div>
-                        <div className="d-flex align-items-center pt-3 fs-3 mx-5">
+                        <div className="d-flex align-items-center justify-content-center justify-content-lg-between pt-3 fs-3 mx-5 mx-lg-0">
                           <p>{orderItem.product.price}EGP</p>
                         </div>
-                        <div className="d-flex align-items-center mx-5">
+                        <div className="d-flex align-items-center justify-content-center justify-content-lg-between mx-5 mx-lg-0">
                           <DeleteSharp
                             sx={{
                               fontSize: "60px",
@@ -131,10 +134,10 @@ const OrderItemsComponent = () => {
                       <hr />
                     </div>
                   ))}
-                  <div className="d-flex justify-content-around">
-                    <button className="btn bg-light btn-lg fs-2 px-5 border border-1 border-dark text-dark">
+                  <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between">
+                    <div className="btn bg-light btn-lg fs-2 px-5 border border-1 border-dark text-dark mb-3 mb-lg-0 me-5">
                       Total Cost: {order.total_price}EGP
-                    </button>
+                    </div>
                     <button
                       className="btn bg-danger btn-lg fs-2 px-5 text-light"
                       onClick={async () => {
@@ -155,32 +158,32 @@ const OrderItemsComponent = () => {
                     </button>
                   </div>
                 </div>
+              </>
+            ) : (
+              <div className="text-center mt-5">
+                <h1>Your Shopping Cart is Empty</h1>
               </div>
-            </>
-          ) : (
-            <div className="text-center mt-5">
-              <h1>Your Shopping Cart is Empty</h1>
-            </div>
-          )}
-        </>
-      )}
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        anchorOrigin={{
-          horizontal: "center",
-          vertical: "top",
-        }}
-        onClose={handleClose}
-      >
-        <Alert
+            )}
+          </>
+        )}
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          anchorOrigin={{
+            horizontal: "center",
+            vertical: "top",
+          }}
           onClose={handleClose}
-          severity="success"
-          sx={{ width: "100%", fontSize: "20px" }}
         >
-          Ordered successfully submitted!
-        </Alert>
-      </Snackbar>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%", fontSize: "20px" }}
+          >
+            Ordered successfully submitted!
+          </Alert>
+        </Snackbar>
+      </div>
     </>
   );
 };
