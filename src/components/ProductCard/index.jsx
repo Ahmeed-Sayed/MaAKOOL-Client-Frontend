@@ -2,7 +2,13 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions, Grid } from "@mui/material";
+import {
+  Button,
+  CardActionArea,
+  CardActions,
+  Grid,
+  Tooltip,
+} from "@mui/material";
 import "./card.css";
 import axios from "axios";
 import { useQueryClient } from "react-query";
@@ -43,28 +49,35 @@ export default function ProudctCard(props) {
               <Typography size="small" color="primary" fontSize={"large"}>
                 {product.price} EGP
               </Typography>
-              <Button
-                size="small"
-                color="primary"
-                variant="contained"
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  try {
-                    const response = await axios.post(
-                      "http://localhost:8000/orders/add_to_order/",
-                      {
-                        product: product.id,
-                      }
-                    );
-                    queryClient.invalidateQueries("order");
-                    console.log(response.data.message);
-                  } catch (error) {
-                    console.error(error);
-                  }
-                }}
+              <Tooltip
+                title={!localStorage.username ? "You need to be logged in" : ""}
               >
-                Add to Cart
-              </Button>
+                <span>
+                  <Button
+                    size="small"
+                    color="primary"
+                    variant="contained"
+                    onClick={async (e) => {
+                      e.stopPropagation();
+                      try {
+                        const response = await axios.post(
+                          "http://localhost:8000/orders/add_to_order/",
+                          {
+                            product: product.id,
+                          }
+                        );
+                        queryClient.invalidateQueries("order");
+                        console.log(response.data.message);
+                      } catch (error) {
+                        console.error(error);
+                      }
+                    }}
+                    disabled={!localStorage.username}
+                  >
+                    Add to Cart
+                  </Button>
+                </span>
+              </Tooltip>
             </CardActions>
           </Card>
         </Grid>

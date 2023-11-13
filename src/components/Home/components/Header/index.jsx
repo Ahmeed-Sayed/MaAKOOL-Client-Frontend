@@ -3,13 +3,12 @@ import "./header.css"; // Import a custom CSS file for styling
 import { Badge, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { resetCart } from "../../../../store/slices/cartItems";
 import { useDispatch } from "react-redux";
 
-
 const Header = () => {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const order = useSelector((state) => state.order.cartItems);
@@ -25,45 +24,24 @@ const Header = () => {
     }
     setTotalQuantity(totalQuantity);
   }, [order, loading]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:8000/account/user', {
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-        });
-
-        if (response.ok) {
-          const content = await response.json();
-          setUsername(content.username);
-        } else {
-          // If not authenticated, navigate to the login page
-          setUsername(''); // Set username to an empty string
-          // navigate('/signin');
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    fetchData();
-  }, [navigate]);
 
   // Log out function
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:8000/account/logout', {
-        method: 'POST',
-        credentials: 'include',
+      const response = await fetch("http://localhost:8000/account/logout", {
+        method: "POST",
+        credentials: "include",
       });
       if (response.ok) {
-        dispatch(resetCart());
-        navigate('/');
+        localStorage.removeItem("username");
+        localStorage.removeItem("id");
+        localStorage.removeItem("email");
+        navigate("/");
       } else {
-        console.error('Logout failed');
+        console.error("Logout failed");
       }
     } catch (error) {
-      console.error('Error during logout:', error);
+      console.error("Error during logout:", error);
     }
   };
 
@@ -76,7 +54,7 @@ const Header = () => {
           </div>
         </Box>
         <div className="upperHeaderRight d-flex flex-row">
-          {username && (
+          {localStorage.username && (
             <>
               <button
                 type="button"
@@ -94,7 +72,7 @@ const Header = () => {
               </button>
             </>
           )}
-          {!username && (
+          {!localStorage.username && (
             <>
               <button
                 type="button"
