@@ -178,6 +178,7 @@ function SignUp() {
         setTimeout(navigate("/"), 1000);
       } else {
         const data = await response.json();
+        console.log(data, formData);
         const errors = { ...formErrors };
         if (data.username) errors.usernameError = data.username;
         if (data.email) errors.emailError = data.email;

@@ -165,24 +165,25 @@ const Header = () => {
               </Link>
             </li>
           </ul>
-          <div className="d-flex me-5">
-            <button
-              className="btn bg-light text-dark fw-bold px-3 fs-5 me-3"
-              type="submit"
-              onClick={() => navigate("/cart")}
-            >
-              Place your order
-            </button>
-            <div className="d-flex align-items-center text-light position-relative">
-              <Badge
-                badgeContent={totalQuantity}
-                fontSize="large"
-                color="primary"
+          <Link to="/cart" style={{ textDecoration: "none" }}>
+            <div className="d-flex me-5 ">
+              <button
+                className="btn bg-light text-dark fw-bold px-3 fs-5 me-3"
+                type="submit"
               >
-                <ShoppingCartIcon sx={{ fontSize: 40 }} />
-              </Badge>
+                Place your order
+              </button>
+              <div className="d-flex align-items-center text-light position-relative">
+                <Badge
+                  badgeContent={totalQuantity}
+                  fontSize="large"
+                  color="primary"
+                >
+                  <ShoppingCartIcon sx={{ fontSize: 40 }} />
+                </Badge>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
       </nav>
     </>

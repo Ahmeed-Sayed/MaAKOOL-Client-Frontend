@@ -28,7 +28,7 @@ function App() {
       const { data } = await axios.get("http://localhost:8000/orders/orders/");
 
       const nonOrderedOrders = data.filter((order) => {
-        return order.ordered === false, order.user == localStorage.id;
+        return order.ordered === false && order.user == localStorage.id;
       });
       return nonOrderedOrders.length > 0 ? nonOrderedOrders[0] : null;
     } catch (error) {
