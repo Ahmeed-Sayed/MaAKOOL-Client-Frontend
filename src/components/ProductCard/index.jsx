@@ -2,7 +2,13 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions, Grid } from "@mui/material";
+import {
+  Button,
+  CardActionArea,
+  CardActions,
+  Grid,
+  Tooltip,
+} from "@mui/material";
 import "./card.css";
 import axios from "axios";
 import { useQueryClient } from "react-query";
@@ -23,11 +29,12 @@ export default function ProudctCard(props) {
         <Grid item key={index} xs={12} xl={2} sm={4} md={3}>
           <Card sx={{ padding: 1.5 }} style={cardStyle}>
             <CardActionArea style={{ flex: "1" }}>
+              {console.log(`http://127.0.0.1:8000${product.image}`)}
               <CardMedia
                 component="img"
                 height="180"
-                image="https://dummyimage.com/340x200.png/ff4444/ffffff"
-                alt="Pizza Image"
+                src={`http://127.0.0.1:8000${product.image}`}
+                alt="image"
                 sx={{ borderRadius: 1, padding: 0 }}
               />
               <CardContent style={{ flex: "1" }}>
@@ -43,28 +50,36 @@ export default function ProudctCard(props) {
               <Typography size="small" color="primary" fontSize={"large"}>
                 {product.price} EGP
               </Typography>
-              <Button
-                size="small"
-                color="primary"
-                variant="contained"
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  try {
-                    const response = await axios.post(
-                      "http://localhost:8000/orders/add_to_order/",
-                      {
-                        product: product.id,
-                      }
-                    );
-                    queryClient.invalidateQueries("order");
-                    console.log(response.data.message);
-                  } catch (error) {
-                    console.error(error);
-                  }
-                }}
+              <Tooltip
+                title={!localStorage.id ? "You need to be logged in" : ""}
               >
-                Add to Cart
-              </Button>
+                <span>
+                  <Button
+                    size="small"
+                    color="primary"
+                    variant="contained"
+                    onClick={async (e) => {
+                      e.stopPropagation();
+                      try {
+                        const response = await axios.post(
+                          "http://localhost:8000/orders/add_to_order/",
+                          {
+                            product: product.id,
+                            userId: localStorage.id, //هضطر اغير دا للايميل
+                          }
+                        );
+                        queryClient.invalidateQueries("order");
+                        console.log(response.data.message);
+                      } catch (error) {
+                        console.error(error);
+                      }
+                    }}
+                    disabled={!localStorage.id}
+                  >
+                    Add to Cart
+                  </Button>
+                </span>
+              </Tooltip>
             </CardActions>
           </Card>
         </Grid>

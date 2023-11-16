@@ -1,14 +1,19 @@
+import axios from "axios";
 import "../../Profile/components/ProfileInfo/profile.css";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { useEffect } from "react";
+import { useState } from "react";
+import Swal from "sweetalert2";
 const Edit = () => {
+  const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState({});
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
       phone: "",
-      mobile: "",
       address: "",
     },
     validationSchema: Yup.object({
@@ -29,19 +34,68 @@ const Edit = () => {
           "Phone number must start with 010, 011, 012, or 015 and be 11 digits long"
         )
         .required("Required"),
-      mobile: Yup.string()
-        .matches(
-          /^(010|011|012|015)\d{8}$/,
-          "Phone number must start with 010, 011, 012, or 015 and be 11 digits long"
-        )
-        .required("Required"),
 
       address: Yup.string().required("Required"),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.patch(
+          `http://localhost:8000/api/accounts/update/${localStorage.id}`,
+          values,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.access}`,
+            },
+          }
+        );
+        console.log("Updated user profile:", response.data);
+        Swal.fire({
+          icon: "success",
+          title: "Profile Successfully updated",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        setTimeout(navigate("/profile"), 1000);
+      } catch (error) {
+        console.error("Error updating user profile:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Profile Didn't update",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        setTimeout(navigate("/profile"), 1000);
+      }
     },
   });
+  const getUserInfo = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8000/api/accounts/profile/${localStorage.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.access}`,
+          },
+        }
+      );
+      setUserInfo(data);
+
+      // Dynamically set the form initial values after fetching user info
+      formik.setValues({
+        name: data.username || "",
+        email: data.email || "",
+        phone: data.profile ? data.profile.phone || "" : "",
+        address: data.profile ? data.profile.address || "" : "",
+      });
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
   return (
     <form onSubmit={formik.handleSubmit}>
       <section className="profileSection">
@@ -76,8 +130,8 @@ const Edit = () => {
                     className="rounded-circle img-fluid"
                     style={{ width: 150 }}
                   />
-                  <h5 className="my-3">John Smith</h5>
-                  <p className="text-muted mb-1">emailExample@gmail.com</p>
+                  <h5 className="my-3">{userInfo.username}</h5>
+                  <p className="text-muted mb-1">{userInfo.email}</p>
                   <div className="d-flex justify-content-center mb-2">
                     <input
                       type="file"
@@ -93,7 +147,7 @@ const Edit = () => {
                 <div className="card-body">
                   <div className="row d-flex align-items-baseline">
                     <div className="col-sm-3">
-                      <p className="mb-0">Full Name</p>
+                      <p className="mb-0">Username</p>
                     </div>
                     <div className="col-sm-9">
                       <input
@@ -152,28 +206,6 @@ const Edit = () => {
                       {formik.touched.phone && formik.errors.phone ? (
                         <p className="alert alert-danger mt-2 py-1">
                           {formik.errors.phone}
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row d-flex align-items-baseline">
-                    <div className="col-sm-3">
-                      <p className="mb-0">Mobile</p>
-                    </div>
-                    <div className="col-sm-9">
-                      <input
-                        placeholder="(098) 765-4321"
-                        value={formik.values.mobile}
-                        onChange={formik.handleChange}
-                        type="text"
-                        className="form-control fs-5"
-                        name="mobile"
-                        onBlur={formik.handleBlur}
-                      />
-                      {formik.touched.mobile && formik.errors.mobile ? (
-                        <p className="alert alert-danger mt-2 py-1">
-                          {formik.errors.mobile}
                         </p>
                       ) : null}
                     </div>

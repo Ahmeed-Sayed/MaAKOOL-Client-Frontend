@@ -18,7 +18,7 @@ import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useEffect } from "react";
-import { increment, setCart, setLoading } from "./store/slices/orderItems";
+import { setCart, setLoading } from "./store/slices/orderItems";
 import Search from "./components/Search";
 import NotFound from "./components/NotFound";
 
@@ -26,7 +26,10 @@ function App() {
   const fetchOrder = async () => {
     try {
       const { data } = await axios.get("http://localhost:8000/orders/orders/");
-      const nonOrderedOrders = data.filter((order) => order.ordered === false);
+
+      const nonOrderedOrders = data.filter((order) => {
+        return order.ordered === false && order.user == localStorage.id;
+      });
       return nonOrderedOrders.length > 0 ? nonOrderedOrders[0] : null;
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -39,7 +42,6 @@ function App() {
   useEffect(() => {
     if (!isLoading) {
       dispatch(setCart(order));
-      dispatch(increment());
     }
   }, [dispatch, isLoading, order]);
 

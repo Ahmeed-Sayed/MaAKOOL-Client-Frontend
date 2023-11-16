@@ -1,34 +1,69 @@
-import { Link, useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
-import './profile.css';
+import { Link, useNavigate } from "react-router-dom";
+import "./profile.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const ProfileInfo = () => {
+  const [userOrders, setUserOrders] = useState({});
+  const [userInfo, setUserInfo] = useState({});
+
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const getUserOrders = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8000/orders/userOrders/${localStorage.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.access}`, // Replace with your actual authentication token
+          },
+        }
+      );
+      console.log(data, "here");
+      setUserOrders(data.userOrders);
+      console.log(userOrders);
+    } catch (error) {
+      console.log(localStorage.access);
+      console.log(localStorage.refresh);
+      console.error("Error fetching user orders:", error);
+      return null;
+    }
+  };
+  const getUserInfo = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8000/api/accounts/profile/${localStorage.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.access}`, // Replace with your actual authentication token
+          },
+        }
+      );
+      setUserInfo(data);
+      console.log(data.profile.phone, "phone");
+      console.log(userOrders);
+    } catch (error) {
+      console.log(localStorage.access);
+      console.log(localStorage.refresh);
+      console.error("Error fetching user orders:", error);
+      return null;
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:8000/account/user', {
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-        });
-
-        if (response.ok) {
-          const content = await response.json();
-          setUsername(content.username);
-          setEmail(content.email);
-        } else {
-          navigate('/signin');
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
+    getUserInfo();
+    getUserOrders();
+  }, []);
+  const formattedDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     };
-
-    fetchData();
-  }, [navigate]);
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, options);
+  };
 
   return (
     <>
@@ -44,7 +79,6 @@ const ProfileInfo = () => {
                   <li className="breadcrumb-item">
                     <Link to="/">Home</Link>
                   </li>
-
                   <li className="breadcrumb-item active" aria-current="page">
                     User Profile
                   </li>
@@ -63,7 +97,7 @@ const ProfileInfo = () => {
                     style={{ width: 150 }}
                   />
                   <h5 className="my-3"></h5>
-                  <p className="text-muted mb-1">{username}</p>
+                  <p className="text-muted mb-1">{userInfo.username}</p>
                   <div className="d-flex justify-content-center mb-2">
                     <button
                       type="button"
@@ -81,10 +115,10 @@ const ProfileInfo = () => {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-sm-3">
-                      <p className="mb-0">Full Name</p>
+                      <p className="mb-0">Name</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">Johnatan Smith</p>
+                      <p className="text-muted mb-0">{userInfo.username}</p>
                     </div>
                   </div>
                   <hr />
@@ -93,7 +127,7 @@ const ProfileInfo = () => {
                       <p className="mb-0">Email</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">{email}</p>
+                      <p className="text-muted mb-0">{userInfo.email}</p>
                     </div>
                   </div>
                   <hr />
@@ -102,16 +136,11 @@ const ProfileInfo = () => {
                       <p className="mb-0">Phone</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">(097) 234-5678</p>
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <p className="mb-0">Mobile</p>
-                    </div>
-                    <div className="col-sm-9">
-                      <p className="text-muted mb-0">(098) 765-4321</p>
+                      <p className="text-muted mb-0">
+                        <p className="text-muted mb-0">
+                          {userInfo.profile?.phone}
+                        </p>
+                      </p>
                     </div>
                   </div>
                   <hr />
@@ -121,11 +150,62 @@ const ProfileInfo = () => {
                     </div>
                     <div className="col-sm-9">
                       <p className="text-muted mb-0">
-                        Bay Area, San Francisco, CA
+                        <p className="text-muted mb-0">
+                          {userInfo.profile?.address}
+                        </p>
                       </p>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-12">
+            <div className="card mb-4">
+              <div className="card-body">
+                <h4 className="mb-3">Order History</h4>
+                {userOrders && userOrders.length > 0 ? (
+                  userOrders.map((order, index) => (
+                    <div key={index}>
+                      <div className="row">
+                        <div className="col-sm-4">
+                          <p className="mb-0">Order Created Date</p>
+                        </div>
+                        <div className="col-sm-8  ">
+                          <p className="text-muted mb-0">
+                            {formattedDate(order.creating_date)}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-4">
+                          <p className="mb-0">Total Price</p>
+                        </div>
+                        <div className="col-sm-8">
+                          <p className="text-muted mb-0">
+                            {order.total_price} EGP
+                          </p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-4">
+                          <p className="mb-0">Products</p>
+                        </div>
+                        <div className="col-sm-8">
+                          {order.orderItems &&
+                            order.orderItems.map((orderItem, i) => (
+                              <p key={i} className="text-muted mb-0">
+                                {orderItem.product.name}
+                              </p>
+                            ))}
+                        </div>
+                      </div>
+                      {index !== userOrders.length - 1 && <hr />}
+                    </div>
+                  ))
+                ) : (
+                  <p>Your order history is empty.</p>
+                )}
               </div>
             </div>
           </div>
