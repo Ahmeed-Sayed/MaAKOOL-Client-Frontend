@@ -26,9 +26,10 @@ function App() {
   const fetchOrder = async () => {
     try {
       const { data } = await axios.get("http://localhost:8000/orders/orders/");
-      const nonOrderedOrders = data.filter(
-        (order) => order.ordered === false && order.user == localStorage.id
-      );
+
+      const nonOrderedOrders = data.filter((order) => {
+        return order.ordered === false && order.user == localStorage.id;
+      });
       return nonOrderedOrders.length > 0 ? nonOrderedOrders[0] : null;
     } catch (error) {
       console.error("Error fetching orders:", error);

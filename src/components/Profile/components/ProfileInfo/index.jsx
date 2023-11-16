@@ -4,22 +4,53 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const ProfileInfo = () => {
-  const navigate = useNavigate();
   const [userOrders, setUserOrders] = useState({});
+  const [userInfo, setUserInfo] = useState({});
+
+  const navigate = useNavigate();
   const getUserOrders = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8000/orders/userOrders/${localStorage.id}`
+        `http://localhost:8000/orders/userOrders/${localStorage.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.access}`, // Replace with your actual authentication token
+          },
+        }
       );
       console.log(data, "here");
       setUserOrders(data.userOrders);
       console.log(userOrders);
     } catch (error) {
+      console.log(localStorage.access);
+      console.log(localStorage.refresh);
       console.error("Error fetching user orders:", error);
       return null;
     }
   };
+  const getUserInfo = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8000/api/accounts/profile/${localStorage.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.access}`, // Replace with your actual authentication token
+          },
+        }
+      );
+      setUserInfo(data);
+      console.log(data.profile.phone, "phone");
+      console.log(userOrders);
+    } catch (error) {
+      console.log(localStorage.access);
+      console.log(localStorage.refresh);
+      console.error("Error fetching user orders:", error);
+      return null;
+    }
+  };
+
   useEffect(() => {
+    getUserInfo();
     getUserOrders();
   }, []);
   const formattedDate = (dateString) => {
@@ -66,7 +97,7 @@ const ProfileInfo = () => {
                     style={{ width: 150 }}
                   />
                   <h5 className="my-3"></h5>
-                  <p className="text-muted mb-1">{localStorage.username}</p>
+                  <p className="text-muted mb-1">{userInfo.username}</p>
                   <div className="d-flex justify-content-center mb-2">
                     <button
                       type="button"
@@ -87,7 +118,7 @@ const ProfileInfo = () => {
                       <p className="mb-0">Name</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">{localStorage.username}</p>
+                      <p className="text-muted mb-0">{userInfo.username}</p>
                     </div>
                   </div>
                   <hr />
@@ -96,7 +127,7 @@ const ProfileInfo = () => {
                       <p className="mb-0">Email</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">{localStorage.email}</p>
+                      <p className="text-muted mb-0">{userInfo.email}</p>
                     </div>
                   </div>
                   <hr />
@@ -105,16 +136,11 @@ const ProfileInfo = () => {
                       <p className="mb-0">Phone</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">097</p>
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <p className="mb-0">Mobile</p>
-                    </div>
-                    <div className="col-sm-9">
-                      <p className="text-muted mb-0">098</p>
+                      <p className="text-muted mb-0">
+                        <p className="text-muted mb-0">
+                          {userInfo.profile?.phone}
+                        </p>
+                      </p>
                     </div>
                   </div>
                   <hr />
@@ -123,7 +149,11 @@ const ProfileInfo = () => {
                       <p className="mb-0">Address</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">Bay Area</p>
+                      <p className="text-muted mb-0">
+                        <p className="text-muted mb-0">
+                          {userInfo.profile?.address}
+                        </p>
+                      </p>
                     </div>
                   </div>
                 </div>
