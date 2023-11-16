@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
+import Swal from "sweetalert2";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -26,18 +27,32 @@ const Header = () => {
   // Log out function
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:8000/account/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      if (response.ok) {
-        localStorage.removeItem("username");
-        localStorage.removeItem("id");
-        localStorage.removeItem("email");
-        queryClient.invalidateQueries("order");
+      const response = await fetch(
+        "http://localhost:8000/api/accounts/logout/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
 
+          body: JSON.stringify({
+            refresh_token: localStorage.refresh,
+          }),
+        }
+      );
+      if (response.ok) {
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("id");
+        queryClient.invalidateQueries("order");
+        Swal.fire({
+          icon: "success",
+          title: "Logout Successful!",
+          showConfirmButton: false,
+          timer: 1500, // Automatically close after 1.5 seconds
+        });
         navigate("/");
       } else {
+        console.log(localStorage.refresh);
         console.error("Logout failed");
       }
     } catch (error) {
@@ -47,43 +62,43 @@ const Header = () => {
 
   return (
     <>
-      <div className="upperHeader align-items-center bg-dark d-flex justify-content-between p-3">
+      <div className="upperHeader align-items-center bg-dark d-flex justify-content-between px-3 py-2">
         <Box sx={{ display: { xs: "none", sm: "block" } }}>
           <div className="upperHeaderLeft bg-light rounded">
-            <h3 className="px-3 py-3 fw-bold">Fast Food Restaurant</h3>
+            <h5 className="px-3 py-3 fw-bold">Fast Food Restaurant</h5>
           </div>
         </Box>
         <div className="upperHeaderRight d-flex flex-row">
-          {localStorage.username && (
+          {localStorage.id && (
             <>
               <button
                 type="button"
-                className="btn bg-danger text-light fs-3 px-3 py-2 me-3 fw-bold"
+                className="btn bg-danger text-light fs-5 px-3 py-2 me-3 fw-bold"
                 onClick={() => navigate("/profile")}
               >
                 Profile
               </button>
               <button
                 type="button"
-                className="btn bg-light text-dark fs-3 px-3 py-2 me-3 fw-bold"
+                className="btn bg-light text-dark fs-5 px-3 py-2 me-3 fw-bold"
                 onClick={handleLogout}
               >
                 Logout
               </button>
             </>
           )}
-          {!localStorage.username && (
+          {!localStorage.id && (
             <>
               <button
                 type="button"
-                className="btn bg-danger text-light fs-3 px-3 py-2 me-3 fw-bold"
+                className="btn bg-danger text-light fs-5 px-3 py-2 me-3 fw-bold"
                 onClick={() => navigate("/signin")}
               >
-                Sign In
+                Login
               </button>
               <button
                 type="button"
-                className="btn bg-light text-dark fs-3 px-3 py-2 me-3 fw-bold"
+                className="btn bg-light text-dark fs-5 px-3 py-2 me-3 fw-bold"
                 onClick={() => navigate("/signup")}
               >
                 Sign Up
@@ -97,7 +112,7 @@ const Header = () => {
         className="navbar navbar-expand-lg navbar-light "
         style={{ backgroundColor: "#DC3545" }}
       >
-        <div className="d-flex jusify-content-between align-items-end fs-4">
+        <div className="d-flex jusify-content-between align-items-end fs-5">
           <Link
             className="text-decoration-none text-light fw-bold ms-3  px-3"
             to="/"
@@ -127,7 +142,7 @@ const Header = () => {
           className="collapse navbar-collapse justify-content-between"
           id="navbarNav"
         >
-          <ul className="navbar-nav ms-3  fs-4">
+          <ul className="navbar-nav ms-3  fs-5">
             <li className="nav-item mx-4">
               <Link className="nav-link text-light" to="/browse/2">
                 Burgers
@@ -152,7 +167,7 @@ const Header = () => {
           </ul>
           <div className="d-flex me-5">
             <button
-              className="btn bg-light text-dark fw-bold px-3 fs-4 me-3"
+              className="btn bg-light text-dark fw-bold px-3 fs-5 me-3"
               type="submit"
               onClick={() => navigate("/cart")}
             >

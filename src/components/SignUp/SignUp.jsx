@@ -1,6 +1,7 @@
 import { useState } from "react";
 import signup_img from "../../assets/Images/signup_img.avif";
 import "./SignUp.css";
+
 import {
   Container,
   Grid,
@@ -15,6 +16,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -23,6 +25,8 @@ function SignUp() {
     username: "",
     password: "",
     confirmPassword: "",
+    address: "",
+    phone: "",
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -30,6 +34,8 @@ function SignUp() {
     usernameError: "",
     passwordError: "",
     confirmPasswordError: "",
+    addressError: "",
+    phoneError: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -54,13 +60,27 @@ function SignUp() {
           : "";
         break;
       case "username":
-        errors.usernameError =
-          value.trim() === "" ? "username is required." : "";
+        errors.usernameError = validateUsername(value);
+        break;
+      case "phone":
+        errors.phoneError = !validatePhone(value)
+          ? "Please enter a valid phone number starting with 010, 011, 012, or 015 and is 11 digits long."
+          : "";
+        break;
+      case "password":
+        errors.passwordError = validatePassword(value);
         break;
 
+      case "confirmPassword":
+        errors.confirmPasswordError = validateConfirmPassword(value);
+        break;
+      case "address":
+        errors.addressError = value.trim() === "" ? "Address is required." : "";
+        break;
       default:
         break;
     }
+
     setFormErrors(errors);
   };
 
@@ -68,29 +88,113 @@ function SignUp() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const digitRegex = /\d/;
 
+    const lengthValidation =
+      password.length >= minLength
+        ? ""
+        : `Password must be at least ${minLength} characters.`;
+    const uppercaseValidation = uppercaseRegex.test(password)
+      ? ""
+      : "Password must include at least one uppercase letter.";
+    const lowercaseValidation = lowercaseRegex.test(password)
+      ? ""
+      : "Password must include at least one lowercase letter.";
+    const digitValidation = digitRegex.test(password)
+      ? ""
+      : "Password must include at least one numeric digit.";
+
+    return (
+      lengthValidation ||
+      uppercaseValidation ||
+      lowercaseValidation ||
+      digitValidation
+    );
+  };
+
+  const validatePhone = (phone) => {
+    const phoneRegex = /^(010|011|012|015)\d{8}$/;
+    return phoneRegex.test(phone);
+  };
+  const validateUsername = (username) => {
+    const previousValidation =
+      username.trim() === "" ? "Username is required." : "";
+    const alphanumericRegex = /^[a-zA-Z0-9]*$/;
+    const maxLengthValidation =
+      username.length <= 30
+        ? ""
+        : "Username must have a maximum of 30 characters.";
+
+    // Validate against the alphanumeric regex
+    const regexValidation = alphanumericRegex.test(username)
+      ? ""
+      : "Username must be alphanumeric.";
+
+    return previousValidation || regexValidation || maxLengthValidation;
+  };
+
+  const validateConfirmPassword = (confirmPassword) => {
+    const password = formData.password;
+    return confirmPassword === password ? "" : "Passwords do not match.";
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const isValid = Object.values(formErrors).every((error) => error === "");
 
     if (isValid) {
-      await fetch("http://localhost:8000/account/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:8000/api/accounts/register/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
 
-      navigate("/signin");
+          Accept: "application/json",
+
+          body: JSON.stringify({
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+            password2: formData.confirmPassword,
+            profile: {
+              address: formData.address,
+              phone: formData.phone,
+            },
+          }),
+        }
+      );
+      if (response.ok) {
+        Swal.fire({
+          icon: "success",
+          title: "Sign up was Sucessfull, You can now login",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        setTimeout(navigate("/"), 1000);
+      } else {
+        const data = await response.json();
+        const errors = { ...formErrors };
+        if (data.username) errors.usernameError = data.username;
+        if (data.email) errors.emailError = data.email;
+        if (data.password) errors.passwordError = data.password;
+        if (data.password2) errors.confirmPasswordError = data.password2;
+        if (data.profile) {
+          if (data.profile.address) errors.addressError = data.profile.address;
+          if (data.profile.phone) errors.phoneError = data.profile.phone;
+        }
+        setFormErrors(errors);
+        console.log(response, formData);
+      }
     }
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ marginTop: "3.5rem" }}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <img
@@ -109,12 +213,15 @@ function SignUp() {
           <Typography variant="h4" gutterBottom align="center" sx={{ mt: 3 }}>
             Sign Up
           </Typography>
+          <div className="mt-0 mb-3 w-25 mx-auto  border-1 rounded border-danger text-center text-danger fw-bold">
+            ________
+          </div>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={6} sm={6}>
                 <TextField
                   fullWidth
-                  label="username"
+                  label="Username"
                   type="text"
                   name="username"
                   value={formData.username}
@@ -162,6 +269,9 @@ function SignUp() {
                       </InputAdornment>
                     }
                   />
+                  <FormHelperText error={Boolean(formErrors.passwordError)}>
+                    {formErrors.passwordError}
+                  </FormHelperText>
                 </FormControl>
               </Grid>
               <Grid item xs={6}>
@@ -176,7 +286,11 @@ function SignUp() {
                     onBlur={() =>
                       validateField("confirmPassword", formData.confirmPassword)
                     }
+                    onInput={() =>
+                      validateField("confirmPassword", formData.confirmPassword)
+                    }
                     required
+                    error={Boolean(formErrors.confirmPasswordError)}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton onClick={handleShowPassword} edge="end">
@@ -185,10 +299,43 @@ function SignUp() {
                       </InputAdornment>
                     }
                   />
+                  <FormHelperText error>
+                    {formErrors.confirmPasswordError}
+                  </FormHelperText>
                 </FormControl>
               </Grid>
               <Grid item xs={6}>
-                <button className="btn btn-dark w-100">Cancel</button>
+                <TextField
+                  fullWidth
+                  label="Phone"
+                  type="text"
+                  required
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  onBlur={() => validateField("phone", formData.phone)}
+                  variant="outlined"
+                  error={Boolean(formErrors.phoneError)}
+                  helperText={formErrors.phoneError}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Address"
+                  type="text"
+                  required
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  variant="outlined"
+                  error={Boolean(formErrors.addressError)}
+                  helperText={formErrors.addressError}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <button className="btn btn-lg btn-dark w-100">Cancel</button>
               </Grid>
               <Grid item xs={6}>
                 <button className="btn btn-danger w-100 btn-lg">

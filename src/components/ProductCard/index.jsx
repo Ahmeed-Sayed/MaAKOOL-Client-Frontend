@@ -29,11 +29,12 @@ export default function ProudctCard(props) {
         <Grid item key={index} xs={12} xl={2} sm={4} md={3}>
           <Card sx={{ padding: 1.5 }} style={cardStyle}>
             <CardActionArea style={{ flex: "1" }}>
+              {console.log(`http://127.0.0.1:8000${product.image}`)}
               <CardMedia
                 component="img"
                 height="180"
-                image="https://dummyimage.com/340x200.png/ff4444/ffffff"
-                alt="Pizza Image"
+                src={`http://127.0.0.1:8000${product.image}`}
+                alt="image"
                 sx={{ borderRadius: 1, padding: 0 }}
               />
               <CardContent style={{ flex: "1" }}>
@@ -50,7 +51,7 @@ export default function ProudctCard(props) {
                 {product.price} EGP
               </Typography>
               <Tooltip
-                title={!localStorage.username ? "You need to be logged in" : ""}
+                title={!localStorage.id ? "You need to be logged in" : ""}
               >
                 <span>
                   <Button
@@ -64,7 +65,7 @@ export default function ProudctCard(props) {
                           "http://localhost:8000/orders/add_to_order/",
                           {
                             product: product.id,
-                            userId: localStorage.id,
+                            userId: localStorage.id, //هضطر اغير دا للايميل
                           }
                         );
                         queryClient.invalidateQueries("order");
@@ -73,7 +74,7 @@ export default function ProudctCard(props) {
                         console.error(error);
                       }
                     }}
-                    disabled={!localStorage.username}
+                    disabled={!localStorage.id}
                   >
                     Add to Cart
                   </Button>

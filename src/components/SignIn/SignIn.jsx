@@ -1,46 +1,64 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import signin_img from "../../assets/Images/SignIn_img.png";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
+import { useState } from "react";
 import { useQueryClient } from "react-query";
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
-const handleLogin = () => {
-  const jwtToken = Cookies.get("jwt"); // Replace 'jwt' with your cookie name
-  const decoded = jwtDecode(jwtToken);
-  localStorage.setItem("jwtToken", decoded);
-  localStorage.setItem("username", decoded.username);
-  localStorage.setItem("email", decoded.email);
-  localStorage.setItem("id", decoded.id);
-};
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [error, setError] = useState("");
   const queryClient = useQueryClient();
-  const submit = async (e) => {
+  const navigate = useNavigate();
+
+  const handleLogin = (response) => {
+    console.log("Login successful!", response);
+    localStorage.setItem("id", response.user.id);
+    localStorage.setItem("access", response.access);
+    localStorage.setItem("refresh", response.refresh);
+    Swal.fire({
+      icon: "success",
+      title: "Login Successful!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!email || !password) {
+      setError("Please enter both email and password.");
+      return;
+    }
+
     try {
-      const response = await fetch("http://localhost:8000/account/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:8000/api/accounts/login/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        }
+      );
 
       if (response.ok) {
-        handleLogin();
+        const data = await response.json();
+        handleLogin(data);
         queryClient.invalidateQueries("order");
-
-        navigate("/profile");
+        setError("");
+        navigate("/");
       } else {
-        console.error("Login failed");
+        setError("Invalid email or password. Please try again.");
       }
     } catch (error) {
+      setError("An error occurred during login. Please try again later.");
       console.error("Error during login:", error);
     }
   };
@@ -49,13 +67,13 @@ const SignIn = () => {
     <>
       <div className="container mt-3">
         <div className="row">
-          <div className="col-md-7">
+          <div className="col-md-7 d-flex justify-content-end">
             <img
               src={signin_img}
               alt="signin image"
               style={{
-                width: "100%",
-                height: "600px",
+                width: "75%",
+                height: "500px",
                 objectFit: "fill",
                 objectPosition: "center",
                 borderRadius: "15px",
@@ -67,13 +85,16 @@ const SignIn = () => {
             <div className="mt-0 mb-3 w-25 mx-auto  border-1 rounded border-danger text-center text-danger fw-bold">
               ________
             </div>
-            <form onSubmit={submit}>
+            <form onSubmit={handleSubmit}>
+              {error && <div className="alert alert-danger">{error}</div>}
+
               <div className="form-floating mb-3">
                 <input
                   type="email"
                   className="form-control "
                   id="floatingInput"
                   placeholder="name@example.com"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <label htmlFor="floatingInput">Email address</label>
@@ -84,6 +105,7 @@ const SignIn = () => {
                   className="form-control"
                   id="floatingPassword"
                   placeholder="Password"
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <label htmlFor="floatingPassword">Password</label>
