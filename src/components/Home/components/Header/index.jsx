@@ -4,7 +4,6 @@ import { Badge, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { resetCart } from "../../../../store/slices/cartItems";
 import { useDispatch } from "react-redux";
 
 const Header = () => {
@@ -49,7 +48,6 @@ const Header = () => {
         credentials: "include",
       });
       if (response.ok) {
-        dispatch(resetCart());
         navigate("/");
       } else {
         console.error("Logout failed");
