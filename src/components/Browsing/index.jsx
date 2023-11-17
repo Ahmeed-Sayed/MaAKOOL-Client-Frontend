@@ -10,7 +10,6 @@ const Browsing = () => {
       .get("http://127.0.0.1:8000/resturant/products/")
       .then((response) => {
         setProducts(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("There was an error!", error);

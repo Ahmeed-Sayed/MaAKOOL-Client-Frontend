@@ -38,10 +38,20 @@ const Edit = () => {
       address: Yup.string().required("Required"),
     }),
     onSubmit: async (values) => {
+      console.log("Form values:", values);
       try {
-        const response = await axios.patch(
-          `http://localhost:8000/api/accounts/update/${localStorage.id}`,
-          values,
+        const response = await axios.put(
+          `http://localhost:8000/api/accounts/update/`,
+          {
+            email: values.email,
+            username: values.name,
+            profile: {
+              email: values.email,
+              username: values.name,
+              phone: values.phone,
+              address: values.address,
+            },
+          },
           {
             headers: {
               Authorization: `Bearer ${localStorage.access}`,
@@ -57,6 +67,10 @@ const Edit = () => {
         });
         setTimeout(navigate("/profile"), 1000);
       } catch (error) {
+        console.error("Error updating user profile:", error);
+        console.log("Response data:", error.response.data); // Add this line
+        // rest of the code
+
         console.error("Error updating user profile:", error);
         Swal.fire({
           icon: "error",
@@ -80,12 +94,11 @@ const Edit = () => {
       );
       setUserInfo(data);
 
-      // Dynamically set the form initial values after fetching user info
       formik.setValues({
         name: data.username || "",
         email: data.email || "",
-        phone: data.profile ? data.profile.phone || "" : "",
-        address: data.profile ? data.profile.address || "" : "",
+        phone: data.phone || "",
+        address: data.address || "",
       });
     } catch (error) {
       console.error("Error fetching user info:", error);

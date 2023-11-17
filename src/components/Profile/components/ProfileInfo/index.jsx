@@ -31,19 +31,16 @@ const ProfileInfo = () => {
   const getUserInfo = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8000/api/accounts/profile/${localStorage.id}`,
+        `http://localhost:8000/api/accounts/profile/${localStorage.id}/`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.access}`, // Replace with your actual authentication token
           },
         }
       );
+      console.log(data);
       setUserInfo(data);
-      console.log(data.profile.phone, "phone");
-      console.log(userOrders);
     } catch (error) {
-      console.log(localStorage.access);
-      console.log(localStorage.refresh);
       console.error("Error fetching user orders:", error);
       return null;
     }
@@ -137,9 +134,7 @@ const ProfileInfo = () => {
                     </div>
                     <div className="col-sm-9">
                       <p className="text-muted mb-0">
-                        <p className="text-muted mb-0">
-                          {userInfo.profile?.phone}
-                        </p>
+                        <p className="text-muted mb-0">{userInfo.phone}</p>
                       </p>
                     </div>
                   </div>
@@ -150,9 +145,7 @@ const ProfileInfo = () => {
                     </div>
                     <div className="col-sm-9">
                       <p className="text-muted mb-0">
-                        <p className="text-muted mb-0">
-                          {userInfo.profile?.address}
-                        </p>
+                        <p className="text-muted mb-0">{userInfo.address}</p>
                       </p>
                     </div>
                   </div>

@@ -6,11 +6,13 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Header = () => {
   const navigate = useNavigate();
   const order = useSelector((state) => state.order.cartItems);
   const loading = useSelector((state) => state.order.loading);
+  const [categories, setCategories] = useState([]);
   const queryClient = useQueryClient();
   const [totalQuantity, setTotalQuantity] = useState(0);
   useEffect(() => {
@@ -59,7 +61,20 @@ const Header = () => {
       console.error("Error during logout:", error);
     }
   };
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/resturant/category/"
+        );
+        setCategories(response.data);
+      } catch (error) {
+        console.error("Error during fetching categories:", error);
+      }
+    };
 
+    getCategories(); // Call the function when the component mounts
+  }, []);
   return (
     <>
       <div className="upperHeader align-items-center bg-dark d-flex justify-content-between px-3 py-2">
@@ -142,46 +157,44 @@ const Header = () => {
           className="collapse navbar-collapse justify-content-between"
           id="navbarNav"
         >
-          <ul className="navbar-nav ms-3  fs-5">
-            <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse/2">
-                Burgers
-              </Link>
-            </li>
-            <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse/3">
-                Sandwiches
-              </Link>
-            </li>
-            <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse/4">
-                Pizzas
-              </Link>
-            </li>
-
-            <li className="nav-item mx-4">
-              <Link className="nav-link text-light" to="/browse/5">
-                Crepes
-              </Link>
-            </li>
+          <ul className="navbar-nav ms-3 fs-5">
+            {categories && categories.length > 0 ? (
+              categories.map((category) => (
+                <li className="nav-item mx-4" key={category.id}>
+                  <Link
+                    className="nav-link text-light"
+                    to={`/browse/${category.id}`}
+                  >
+                    {category.name}
+                  </Link>
+                </li>
+              ))
+            ) : (
+              <li key="no-category" className="nav-item mx-4">
+                <span className="nav-link text-light">
+                  No categories available
+                </span>
+              </li>
+            )}
           </ul>
+
           <Link to="/cart" style={{ textDecoration: "none" }}>
             <div className="d-flex me-5 ">
               <button
-                className="btn bg-light text-dark fw-bold px-3 fs-5 me-3"
+                className="btn bg-light text-dark fw-bold px-3 fs-5 me-3 d-flex flex-row align-items-center"
                 type="submit"
               >
-                Place your order
+                <p className="mb-0">Place your order</p>
+                <div className="ms-3 d-flex align-items-center text-light position-relative">
+                  <Badge
+                    badgeContent={totalQuantity}
+                    fontSize="large"
+                    color="primary"
+                  >
+                    <ShoppingCartIcon sx={{ fontSize: 30, color: "black" }} />
+                  </Badge>
+                </div>
               </button>
-              <div className="d-flex align-items-center text-light position-relative">
-                <Badge
-                  badgeContent={totalQuantity}
-                  fontSize="large"
-                  color="primary"
-                >
-                  <ShoppingCartIcon sx={{ fontSize: 40 }} />
-                </Badge>
-              </div>
             </div>
           </Link>
         </div>
