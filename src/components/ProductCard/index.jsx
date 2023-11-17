@@ -29,7 +29,6 @@ export default function ProudctCard(props) {
         <Grid item key={index} xs={12} xl={2} sm={4} md={3}>
           <Card sx={{ padding: 1.5 }} style={cardStyle}>
             <CardActionArea style={{ flex: "1" }}>
-              {console.log(`http://127.0.0.1:8000${product.image}`)}
               <CardMedia
                 component="img"
                 height="180"
