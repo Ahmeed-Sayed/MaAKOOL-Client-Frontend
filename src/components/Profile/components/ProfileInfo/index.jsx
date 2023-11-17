@@ -6,7 +6,9 @@ import axios from "axios";
 const ProfileInfo = () => {
   const [userOrders, setUserOrders] = useState({});
   const [userInfo, setUserInfo] = useState({});
-
+  const itemTotalPrice = (item) => {
+    return item.quantity * item.product.price;
+  };
   const navigate = useNavigate();
   const getUserOrders = async () => {
     try {
@@ -175,9 +177,7 @@ const ProfileInfo = () => {
                           <p className="mb-0">Total Price</p>
                         </div>
                         <div className="col-sm-8">
-                          <p className="text-muted mb-0">
-                            {order.total_price} EGP
-                          </p>
+                          <p className=" mb-3 price">{order.total_price} EGP</p>
                         </div>
                       </div>
                       <div className="row">
@@ -185,12 +185,33 @@ const ProfileInfo = () => {
                           <p className="mb-0">Products</p>
                         </div>
                         <div className="col-sm-8">
-                          {order.orderItems &&
-                            order.orderItems.map((orderItem, i) => (
-                              <p key={i} className="text-muted mb-0">
-                                {orderItem.product.name}
-                              </p>
-                            ))}
+                          <div className="box">
+                            {order.orderItems &&
+                              order.orderItems.map((orderItem, i) => (
+                                <div
+                                  key={i}
+                                  className="my-3 d-flex flex-row align-items-center justify-content-around "
+                                >
+                                  <p className="product-name">
+                                    {orderItem.product.name}
+                                  </p>
+                                  <div>
+                                    <img
+                                      src={`http://127.0.0.1:8000${orderItem.product.image}`}
+                                      width={200}
+                                      height={150}
+                                      className="rounded image"
+                                    />
+                                  </div>
+                                  <p className="quantity">
+                                    Quantity: {orderItem.quantity}
+                                  </p>
+                                  <p className="price">
+                                    Total Price: {itemTotalPrice(orderItem)}EGP
+                                  </p>
+                                </div>
+                              ))}
+                          </div>
                         </div>
                       </div>
                       {index !== userOrders.length - 1 && <hr />}

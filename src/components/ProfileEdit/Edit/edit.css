@@ -1,0 +1,58 @@
+/* Apply consistent styling to the entire page */
+.profileSection {
+  padding: 20px;
+}
+
+/* Apply consistent styling to the breadcrumb navigation */
+.breadcrumb {
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* Apply consistent styling to the card elements */
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #28a745;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-body h5 {
+  color: #007bff;
+}
+
+.form-control {
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.alert {
+  margin-top: 5px;
+}
+
+input[type="file"].form-control {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+}
