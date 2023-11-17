@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { useEffect } from "react";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import "./edit.css";
 const Edit = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
