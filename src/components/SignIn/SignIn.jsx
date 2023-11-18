@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -110,6 +111,7 @@ const SignIn = () => {
                 />
                 <label htmlFor="floatingPassword">Password</label>
               </div>
+              <Link to="/ForgetPassword"> forget password </Link>
               <button
                 type="submit"
                 className="mt-3 btn btn-lg btn-danger w-100 bg-danger"

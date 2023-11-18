@@ -1,7 +1,8 @@
 import "./App.css";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-// import { AuthProvider } from "./context/AuthContext"
-// import PrivateRoute from "./apis/privateRoute";
+import ForgetPassword from "./components/Password/ForgetPassword";
+import OpenMail from "./components/Password/OpenMail";
+import ForgetPasswordConfirm from "./components/Password/ForgetPasswordConfirm";
 import Header from "./components/Home/components/Header";
 import Footer from "./components/Home/components/Footer";
 import Browsing from "./components/Browsing";
@@ -12,7 +13,6 @@ import Profile from "./components/Profile";
 import ProfileEdit from "./components/ProfileEdit";
 import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignIn/SignIn";
-// import Dashboard from "./components/dashboard/dashboard";
 import BrowseCatg from "./components/BrowseCatg";
 import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
@@ -65,6 +65,9 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/search" element={<Search />} />
             <Route path="/not-found" element={<NotFound />} />
+            <Route path="/ForgetPassword" element={<ForgetPassword />} />
+            <Route path="/ForgetPasswordConfirm" element={<ForgetPasswordConfirm />} />
+            <Route path="/OpenMail" element={<OpenMail />} />
             <Route path="/*" element={<NotFound />} />
           </Routes>
           <Footer />
