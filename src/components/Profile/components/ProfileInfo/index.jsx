@@ -3,7 +3,7 @@ import "./profile.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const ProfileInfo = () => {
+const ProfileInfo = ({ user }) => {
   const [userOrders, setUserOrders] = useState({});
   const [userInfo, setUserInfo] = useState({});
   const itemTotalPrice = (item) => {
@@ -33,17 +33,16 @@ const ProfileInfo = () => {
   const getUserInfo = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8000/api/accounts/profile/${localStorage.id}/`,
+        `http://localhost:8000/api/accounts/profile/${localStorage.id}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.access}`, // Replace with your actual authentication token
+            Authorization: `Bearer ${localStorage.access}`,
           },
         }
       );
-      console.log(data);
       setUserInfo(data);
     } catch (error) {
-      console.error("Error fetching user orders:", error);
+      console.error("Error fetching user info:", error);
       return null;
     }
   };
@@ -90,11 +89,16 @@ const ProfileInfo = () => {
               <div className="card mb-4">
                 <div className="card-body text-center">
                   <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                    src={
+                      userInfo.image
+                        ? `http://localhost:8000${userInfo.image}`
+                        : "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                    }
                     alt="avatar"
                     className="rounded-circle img-fluid"
                     style={{ width: 150 }}
                   />
+
                   <h5 className="my-3"></h5>
                   <p className="text-muted mb-1">{userInfo.username}</p>
                   <div className="d-flex justify-content-center mb-2">
