@@ -95,16 +95,16 @@ const ProfileInfo = ({ user }) => {
                         : "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                     }
                     alt="avatar"
-                    className="rounded-circle img-fluid"
-                    style={{ width: 150 }}
+                    className="rounded-circle "
+                    height={150}
+                    width={150}
                   />
 
-                  <h5 className="my-3"></h5>
                   <p className="text-muted mb-1">{userInfo.username}</p>
                   <div className="d-flex justify-content-center mb-2">
                     <button
                       type="button"
-                      className="btn btn-primary mt-3 fs-5"
+                      className="btn btn-primary bg-primary mt-3 fs-5"
                       onClick={() => navigate("/profile/edit")}
                     >
                       Edit Profile
