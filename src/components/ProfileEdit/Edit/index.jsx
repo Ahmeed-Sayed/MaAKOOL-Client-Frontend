@@ -25,11 +25,11 @@ const Edit = () => {
     },
     validationSchema: Yup.object({
       name: Yup.string()
-      .required("Required")
-      .matches(
-        /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*_])[a-zA-Z0-9!@#$%^&*_]{2,8}$/,
-        "Username must contain at least one letter, one number, one special character (_ included), and be between 2 and 8 characters long."
-      ),
+        .required("Required")
+        .matches(
+          /^[a-zA-Z0-9_]{2,20}$/,
+          "Username must contain only alphanumeric characters and underscore, and be between 2 and 20 characters long."
+        ),
 
       email: Yup.string()
         .matches(
@@ -165,12 +165,14 @@ const Edit = () => {
                         : "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                     }
                     alt="avatar"
-                    className="rounded-circle img-fluid"
+                    className="rounded-circle"
+                    height={250}
+                    width={250}
                   />
                   <div className="d-flex justify-content-center mb-2">
                     <input
                       type="file"
-                      className="btn mt-3 form-control bg-primary text-light"
+                      className="btn mt-3 form-control px-4  text-light"
                       name="image"
                       onChange={handleImageChange}
                     />
@@ -275,7 +277,7 @@ const Edit = () => {
           <div className="d-flex justify-content-end">
             <button
               type="submit"
-              className="btn btn-primary px-5 py-2 me-2 fs-5"
+              className="btn btn-primary bg-primary px-5 py-2 me-2 fs-5"
             >
               Save
             </button>
