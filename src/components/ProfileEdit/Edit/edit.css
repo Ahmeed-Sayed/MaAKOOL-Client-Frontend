@@ -31,7 +31,7 @@
 }
 
 .card-body {
-  padding: 20px;
+  padding: 15px;
 }
 
 .card-body h5 {
@@ -55,4 +55,11 @@ input[type="file"].form-control {
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;
+}
+
+
+.img-fluid{
+  width: 300px !important;
+  height: 300px !important;
+  border-radius: 50%;
 }

@@ -10,6 +10,12 @@ import "./edit.css";
 const Edit = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageChange = (event) => {
+    setSelectedImage(event.target.files[0]);
+  };
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -19,10 +25,12 @@ const Edit = () => {
     },
     validationSchema: Yup.object({
       name: Yup.string()
-        .max(20, "Name Must be 20 characters or less or 2 characters or more")
-        .min(2, "Name Must be 20 characters or less or 2 characters or more")
-        .required("Required")
-        .matches(/^[a-zA-Z]+( [a-zA-Z]+)*$/, "name must alphabetic only"),
+      .required("Required")
+      .matches(
+        /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*_])[a-zA-Z0-9!@#$%^&*_]{2,8}$/,
+        "Username must contain at least one letter, one number, one special character (_ included), and be between 2 and 8 characters long."
+      ),
+
       email: Yup.string()
         .matches(
           /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -39,8 +47,21 @@ const Edit = () => {
       address: Yup.string().required("Required"),
     }),
     onSubmit: async (values) => {
-      console.log("Form values:", values);
       try {
+        const formData = new FormData();
+        if (selectedImage) {
+          formData.append("image", selectedImage);
+          await axios.patch(
+            `http://localhost:8000/api/accounts/profile/image/update/`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.access}`,
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+        }
         const response = await axios.put(
           `http://localhost:8000/api/accounts/update/`,
           {
@@ -59,6 +80,7 @@ const Edit = () => {
             },
           }
         );
+
         console.log("Updated user profile:", response.data);
         Swal.fire({
           icon: "success",
@@ -66,20 +88,18 @@ const Edit = () => {
           showConfirmButton: false,
           timer: 2000,
         });
-        setTimeout(navigate("/profile"), 1000);
+        setTimeout(() => navigate("/profile"), 1000);
       } catch (error) {
         console.error("Error updating user profile:", error);
-        console.log("Response data:", error.response.data); // Add this line
-        // rest of the code
+        console.log("Response data:", error.response.data);
 
-        console.error("Error updating user profile:", error);
         Swal.fire({
           icon: "error",
           title: "Profile Didn't update",
           showConfirmButton: false,
           timer: 2000,
         });
-        setTimeout(navigate("/profile"), 1000);
+        setTimeout(() => navigate("/profile"), 1000);
       }
     },
   });
@@ -139,18 +159,20 @@ const Edit = () => {
               <div className="card mb-4">
                 <div className="card-body text-center">
                   <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                    src={
+                      userInfo.image
+                        ? `http://localhost:8000${userInfo.image}`
+                        : "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                    }
                     alt="avatar"
                     className="rounded-circle img-fluid"
-                    style={{ width: 150 }}
                   />
-                  <h5 className="my-3">{userInfo.username}</h5>
-                  <p className="text-muted mb-1">{userInfo.email}</p>
                   <div className="d-flex justify-content-center mb-2">
                     <input
                       type="file"
                       className="btn mt-3 form-control bg-primary text-light"
                       name="image"
+                      onChange={handleImageChange}
                     />
                   </div>
                 </div>
