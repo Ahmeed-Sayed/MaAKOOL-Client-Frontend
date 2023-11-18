@@ -186,6 +186,16 @@ const ProfileInfo = ({ user }) => {
                       </div>
                       <div className="row">
                         <div className="col-sm-4">
+                          <p className="mb-0">Order Status</p>
+                        </div>
+                        <div className="col-sm-8">
+                          <p className=" mb-3 price text-info">
+                            {order.status}{" "}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-4">
                           <p className="mb-0">Products</p>
                         </div>
                         <div className="col-sm-8">
