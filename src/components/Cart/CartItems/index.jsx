@@ -11,14 +11,15 @@ import { useQueryClient } from "react-query";
 import { CircularProgress } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 const OrderItemsComponent = () => {
   const [open, setOpen] = React.useState(false);
-
+  const navigate = useNavigate();
   const handleClick = () => {
     setOpen(true);
   };
@@ -34,6 +35,12 @@ const OrderItemsComponent = () => {
   const order = useSelector((state) => state.order.cartItems);
   const loading = useSelector((state) => state.order.loading);
   const queryClient = useQueryClient();
+  useEffect(() => {
+    if (!localStorage.id || !localStorage.access || !localStorage.refresh) {
+      navigate("/signIn");
+      return;
+    }
+  });
 
   return (
     <>
