@@ -23,7 +23,7 @@ const ForgetPassword = () => {
             </div>
             <button
               type="submit"
-              className="mt-3 btn btn-lg btn-danger w-100"
+              className="mt-3 btn btn-lg btn-primary bg-primary  w-100"
             >
               Send Instructions
             </button>
