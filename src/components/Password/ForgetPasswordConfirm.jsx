@@ -7,8 +7,42 @@ const ForgetPasswordConfirm = () => {
   const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState('');
 
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const digitRegex = /\d/;
+
+    const lengthValidation =
+      password.length >= minLength
+        ? ''
+        : `Password must be at least ${minLength} characters.`;
+    const uppercaseValidation = uppercaseRegex.test(password)
+      ? ''
+      : 'Password must include at least one uppercase letter.';
+    const lowercaseValidation = lowercaseRegex.test(password)
+      ? ''
+      : 'Password must include at least one lowercase letter.';
+    const digitValidation = digitRegex.test(password)
+      ? ''
+      : 'Password must include at least one numeric digit.';
+
+    return (
+      lengthValidation ||
+      uppercaseValidation ||
+      lowercaseValidation ||
+      digitValidation
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const validationError = validatePassword(newPassword);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
 
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/accounts/reset-password/confirm/${uidb64}/${token}/`, {
@@ -56,7 +90,7 @@ const ForgetPasswordConfirm = () => {
               />
               <label htmlFor="floatingInput">New Password</label>
             </div>
-            {error && <div className="alert alert-danger">{error}</div>} {/* Display error message */}
+            {error && <div className="alert alert-danger">{error}</div>}
             <button
               type="submit"
               className="mt-3 btn btn-lg btn-danger w-100"

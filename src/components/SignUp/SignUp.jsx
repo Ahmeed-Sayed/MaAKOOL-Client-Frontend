@@ -88,6 +88,7 @@ function SignUp() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+
   const validatePassword = (password) => {
     const minLength = 8;
     const uppercaseRegex = /[A-Z]/;
@@ -120,6 +121,7 @@ function SignUp() {
     const phoneRegex = /^(010|011|012|015)\d{8}$/;
     return phoneRegex.test(phone);
   };
+
   const validateUsername = (username) => {
     const previousValidation =
       username.trim() === "" ? "Username is required." : "";
@@ -141,6 +143,7 @@ function SignUp() {
     const password = formData.password;
     return confirmPassword === password ? "" : "Passwords do not match.";
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
