@@ -1,6 +1,7 @@
 import "./App.css";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import ForgetPassword from "./components/Password/ForgetPassword";
+import PasswordResetSuccess from "./components/Password/PasswordResetSuccess";
 import OpenMail from "./components/Password/OpenMail";
 import ForgetPasswordConfirm from "./components/Password/ForgetPasswordConfirm";
 import Header from "./components/Home/components/Header";
@@ -66,7 +67,8 @@ function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/not-found" element={<NotFound />} />
             <Route path="/ForgetPassword" element={<ForgetPassword />} />
-            <Route path="/ForgetPasswordConfirm" element={<ForgetPasswordConfirm />} />
+            <Route path="/ForgetPasswordConfirm/:uidb64/:token" element={<ForgetPasswordConfirm />} />
+            <Route path="/PasswordResetSuccess" element={<PasswordResetSuccess />} />
             <Route path="/OpenMail" element={<OpenMail />} />
             <Route path="/*" element={<NotFound />} />
           </Routes>
