@@ -48,6 +48,10 @@ const ProfileInfo = ({ user }) => {
   };
 
   useEffect(() => {
+    if (!localStorage.id || !localStorage.access || !localStorage.refresh) {
+      navigate("/signIn");
+      return;
+    }
     getUserInfo();
     getUserOrders();
   }, []);

@@ -1,6 +1,6 @@
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import "./header.css"; // Import a custom CSS file for styling
-import { Badge, Box } from "@mui/material";
+import { Badge, Box, Tooltip } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -178,25 +178,28 @@ const Header = () => {
             )}
           </ul>
 
-          <Link to="/cart" style={{ textDecoration: "none" }}>
-            <div className="d-flex me-5 ">
-              <button
-                className="btn bg-light text-dark fw-bold px-3 fs-5 me-3 d-flex flex-row align-items-center"
-                type="submit"
-              >
-                <p className="mb-0">Place your order</p>
-                <div className="ms-3 d-flex align-items-center text-light position-relative">
-                  <Badge
-                    badgeContent={totalQuantity}
-                    fontSize="large"
-                    color="primary"
-                  >
-                    <ShoppingCartIcon sx={{ fontSize: 30, color: "black" }} />
-                  </Badge>
-                </div>
-              </button>
-            </div>
-          </Link>
+          <Tooltip title={!localStorage.id ? "You need to be logged in" : ""}>
+            <Link to="/cart" style={{ textDecoration: "none" }}>
+              <div className="d-flex me-5 ">
+                <button
+                  className="btn bg-light text-dark fw-bold px-3 fs-5 me-3 d-flex flex-row align-items-center"
+                  type="submit"
+                  disabled={!localStorage.id}
+                >
+                  <p className="mb-0">Place your order</p>
+                  <div className="ms-3 d-flex align-items-center text-light position-relative">
+                    <Badge
+                      badgeContent={totalQuantity}
+                      fontSize="large"
+                      color="primary"
+                    >
+                      <ShoppingCartIcon sx={{ fontSize: 30, color: "black" }} />
+                    </Badge>
+                  </div>
+                </button>
+              </div>
+            </Link>
+          </Tooltip>
         </div>
       </nav>
     </>

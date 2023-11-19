@@ -128,6 +128,10 @@ const Edit = () => {
   };
 
   useEffect(() => {
+    if (!localStorage.id || !localStorage.access || !localStorage.refresh) {
+      navigate("/signIn");
+      return;
+    }
     getUserInfo();
   }, []);
   return (
