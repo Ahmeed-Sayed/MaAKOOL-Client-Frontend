@@ -204,39 +204,54 @@ const ProfileInfo = ({ user }) => {
                         </div>
                       </div>
                       <div className="row">
-                        <div className="col-sm-4">
+                        <div className="col-sm-12">
                           <p className="mb-0">Products</p>
                         </div>
-                        <div className="col-sm-8">
-                          <div className="box">
+                        <div className="col-sm-12 ">
+                          <div className="shadow shadow-lg p-3 rounded mt-2">
+                            <div className="mt-3 d-flex flex-row align-items-center justify-content-around">
+                              <p className="product-name w-25">
+                                <strong>Name</strong>
+                              </p>
+                              <p>
+                                <strong>Image</strong>
+                              </p>
+                              <p className="quantity w-25 text-center">
+                                <strong>Quantity</strong>
+                              </p>
+                              <p className="price w-25">
+                                <strong>Price</strong>
+                              </p>
+                            </div>
                             {order.orderItems &&
                               order.orderItems.map((orderItem, i) => (
                                 <div
                                   key={i}
-                                  className="my-3 d-flex flex-row align-items-center justify-content-around "
+                                  className="mt-3 d-flex flex-row align-items-center justify-content-around"
                                 >
-                                  <p className="product-name">
+                                  <p className="product-name w-25">
                                     {orderItem.product.name}
                                   </p>
                                   <div>
                                     <img
                                       src={`http://127.0.0.1:8000${orderItem.product.image}`}
-                                      width={200}
-                                      height={150}
+                                      width={100}
+                                      height={50}
                                       className="rounded image"
                                     />
                                   </div>
-                                  <p className="quantity">
-                                    Quantity: {orderItem.quantity}
+                                  <p className="quantity w-25 text-center">
+                                    {orderItem.quantity}
                                   </p>
-                                  <p className="price">
-                                    Total Price: {itemTotalPrice(orderItem)}EGP
+                                  <p className="price w-25">
+                                    {itemTotalPrice(orderItem)}EGP
                                   </p>
                                 </div>
                               ))}
                           </div>
                         </div>
                       </div>
+
                       {index !== userOrders.length - 1 && <hr />}
                     </div>
                   ))

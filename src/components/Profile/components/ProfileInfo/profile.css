@@ -8,8 +8,7 @@
 
 /* Add some style to the product name */
 .product-name {
-  font-weight: bold;
-  font-size: 20px;
+  font-style: italic;
 }
 
 /* Add some style to the image */
@@ -22,7 +21,6 @@
 .quantity,
 .price {
   font-style: italic;
-  color: darkgreen;
 }
 
 /* Apply consistent styling to the entire page */

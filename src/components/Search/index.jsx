@@ -15,7 +15,7 @@ export default function Search() {
     axios
       .get(`http://127.0.0.1:8000/resturant/products/?search=${searchTerm}`)
       .then((res) => {
-        const results = res.data;
+        const results = res.data.results;
         setSearchList(results);
       })
       .catch((err) => {

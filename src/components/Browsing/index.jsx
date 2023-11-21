@@ -18,8 +18,8 @@ const Browsing = () => {
         const response = await axios.get(
           `http://127.0.0.1:8000/resturant/products/?page=${page}`
         );
-        setProducts(response.data);
-        setTotalPages(response.data.num_pages); // Correct attribute for total pages
+        setProducts(response.data.results);
+        setTotalPages(Math.ceil(response.data.count / 12));
       } catch (error) {
         console.error("There was an error!", error);
       }
