@@ -1,7 +1,11 @@
+import axios from "axios";
 import "./contactus.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 export default function ContactUs() {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -27,10 +31,31 @@ export default function ContactUs() {
         .required("Required"),
       feedback: Yup.string()
         .required("Please enter a your feedback")
-        .max(150, "Max length of feedback is 150 characters"),
+        .max(200, "Max length of feedback is 200 characters"),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      axios
+        .post("http://localhost:8000/api/accounts/contact_us/", values)
+        .then((response) => {
+          console.log("Form submission successful:", response.data);
+          Swal.fire({
+            icon: "success",
+            title: "Thank you for your feedback.",
+            showConfirmButton: false,
+            timer: 3000,
+          });
+          setTimeout(() => navigate("/"), 2500);
+        })
+        .catch((error) => {
+          console.error("Error submitting form:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Failed to send feedback, please try again later.",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          setTimeout(() => navigate("/contactUs"), 2500);
+        });
     },
   });
   return (

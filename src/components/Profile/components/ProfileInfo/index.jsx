@@ -20,9 +20,14 @@ const ProfileInfo = ({ user }) => {
           },
         }
       );
-      console.log(data, "here");
+      const sortedUserOrders = data.userOrders.sort((a, b) => {
+        const dateA = new Date(a.creating_date).getTime();
+        const dateB = new Date(b.creating_date).getTime();
+
+        return dateB - dateA;
+      });
       setUserOrders(data.userOrders);
-      console.log(userOrders);
+      console.log(sortedUserOrders);
     } catch (error) {
       console.log(localStorage.access);
       console.log(localStorage.refresh);
