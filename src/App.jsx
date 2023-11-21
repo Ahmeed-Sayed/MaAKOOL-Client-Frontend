@@ -28,8 +28,8 @@ function App() {
     try {
       const { data } = await axios.get("http://localhost:8000/orders/orders/");
 
-      const nonOrderedOrders = data.filter((order) => {
-        return order.ordered === false && order.user == localStorage.id;
+      const nonOrderedOrders = data.results.filter((order) => {
+        return order.ordered === false && order.user.id == localStorage.id;
       });
       return nonOrderedOrders.length > 0 ? nonOrderedOrders[0] : null;
     } catch (error) {
@@ -67,8 +67,14 @@ function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/not-found" element={<NotFound />} />
             <Route path="/ForgetPassword" element={<ForgetPassword />} />
-            <Route path="/ForgetPasswordConfirm/:uidb64/:token" element={<ForgetPasswordConfirm />} />
-            <Route path="/PasswordResetSuccess" element={<PasswordResetSuccess />} />
+            <Route
+              path="/ForgetPasswordConfirm/:uidb64/:token"
+              element={<ForgetPasswordConfirm />}
+            />
+            <Route
+              path="/PasswordResetSuccess"
+              element={<PasswordResetSuccess />}
+            />
             <Route path="/OpenMail" element={<OpenMail />} />
             <Route path="/*" element={<NotFound />} />
           </Routes>

@@ -72,7 +72,6 @@ const OrderItemsComponent = () => {
                           </div>
                           <div className="text-center text-lg-start d-flex flex-column justify-content-evenly ">
                             <h3>{orderItem.product.name}</h3>
-                            <h5>{orderItem.product.description}</h5>
                           </div>
                           <div className="d-flex align-items-center justify-content-center justify-content-lg-between mx-5 mx-lg-0">
                             <RemoveCircleSharp

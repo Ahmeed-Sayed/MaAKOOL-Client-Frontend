@@ -23,6 +23,11 @@ export default function SearchField() {
             placeholder="Search for items.."
             value={search}
             onChange={handleInputChange}
+            onKeyPress={(e) => {
+              if (e.key == "Enter") {
+                handleSearch();
+              }
+            }}
           />
         </div>
         <div className="col">

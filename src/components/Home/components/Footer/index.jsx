@@ -4,20 +4,19 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
-      <div className="footer bg-dark d-flex justify-content-around fs-4 text-light align-items-center py-1">
+      <div className="footer bg-dark d-flex justify-content-around fs-4 text-light align-items-baseline py-1">
         <Link
           to="/contactUs"
           className="text-light text-decoration-none text-center"
         >
-          Contact Us On <br />
-          Sample@gmail.com{" "}
+          Contact Us
         </Link>
         <Link className="text-light text-decoration-none" to="/">
           Fast Food Restuarant
         </Link>
-        <p>
+        <p className="d-flex p-0 align-items-center">
           <Copyright />
-          iti 2023
+          <span>iti 2023</span>
         </p>
       </div>
     </>

@@ -17,7 +17,7 @@ export default function ProudctCard(props) {
   const cardStyle = {
     display: "flex",
     flexDirection: "column",
-    height: "400px",
+    height: "450px",
     boxShadow: "4px 1px 26px 0px rgba(0, 0, 0, 0.1)",
   };
   const queryClient = useQueryClient();
@@ -31,7 +31,8 @@ export default function ProudctCard(props) {
             <CardActionArea style={{ flex: "1" }}>
               <CardMedia
                 component="img"
-                height="180"
+                height="200"
+                width="200"
                 src={`http://127.0.0.1:8000${product.image}`}
                 alt="image"
                 sx={{ borderRadius: 1, padding: 0 }}
@@ -45,7 +46,9 @@ export default function ProudctCard(props) {
                 </Typography>
               </CardContent>
             </CardActionArea>
-            <CardActions sx={{ justifyContent: "space-between" }}>
+            <CardActions
+              sx={{ justifyContent: "space-between", marginBottom: "15" }}
+            >
               <Typography size="small" color="primary" fontSize={"large"}>
                 {product.price} EGP
               </Typography>
