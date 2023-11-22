@@ -58,7 +58,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/browse" element={<Browsing />} />
             <Route path="/browse/:catgNum" element={<BrowseCatg />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart/:status?" element={<Cart />} />
             <Route path="/contactUs" element={<ContactUs />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/edit" element={<ProfileEdit />} />

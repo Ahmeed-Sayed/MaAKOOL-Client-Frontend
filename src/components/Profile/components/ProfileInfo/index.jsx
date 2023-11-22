@@ -190,7 +190,7 @@ const ProfileInfo = ({ user }) => {
                           <p className="mb-0">Total Price</p>
                         </div>
                         <div className="col-sm-8">
-                          <p className=" mb-3 price">{order.total_price} EGP</p>
+                          <p className=" mb-0 price">{order.total_price} EGP</p>
                         </div>
                       </div>
                       <div className="row">
@@ -210,7 +210,7 @@ const ProfileInfo = ({ user }) => {
                         <div className="col-sm-12 ">
                           <div className="shadow shadow-lg p-3 rounded mt-2">
                             <div className="mt-3 d-flex flex-row align-items-center justify-content-around">
-                              <p className="product-name w-25">
+                              <p className="product-name w-25 text-center">
                                 <strong>Name</strong>
                               </p>
                               <p>
@@ -219,7 +219,7 @@ const ProfileInfo = ({ user }) => {
                               <p className="quantity w-25 text-center">
                                 <strong>Quantity</strong>
                               </p>
-                              <p className="price w-25">
+                              <p className="price w-25 text-center">
                                 <strong>Price</strong>
                               </p>
                             </div>
@@ -229,7 +229,7 @@ const ProfileInfo = ({ user }) => {
                                   key={i}
                                   className="mt-3 d-flex flex-row align-items-center justify-content-around"
                                 >
-                                  <p className="product-name w-25">
+                                  <p className="product-name w-25 text-center">
                                     {orderItem.product.name}
                                   </p>
                                   <div>
@@ -243,8 +243,8 @@ const ProfileInfo = ({ user }) => {
                                   <p className="quantity w-25 text-center">
                                     {orderItem.quantity}
                                   </p>
-                                  <p className="price w-25">
-                                    {itemTotalPrice(orderItem)}EGP
+                                  <p className="price w-25 text-center">
+                                    {itemTotalPrice(orderItem)} USD
                                   </p>
                                 </div>
                               ))}
