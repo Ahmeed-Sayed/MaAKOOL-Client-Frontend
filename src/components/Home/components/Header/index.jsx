@@ -54,7 +54,6 @@ const Header = () => {
         });
         navigate("/");
       } else {
-        console.log(localStorage.refresh);
         console.error("Logout failed");
       }
     } catch (error) {
@@ -77,7 +76,7 @@ const Header = () => {
   }, []);
   return (
     <>
-      <div className="upperHeader align-items-center bg-dark d-flex justify-content-between px-3 py-2">
+      <div className="upperHeader align-items-center bg-dark d-flex justify-content-between px-3 py-1">
         <Box sx={{ display: { xs: "none", sm: "block" } }}>
           <div className="upperHeaderLeft bg-light rounded">
             <h5 className="px-3 py-3 fw-bold">Fast Food Restaurant</h5>

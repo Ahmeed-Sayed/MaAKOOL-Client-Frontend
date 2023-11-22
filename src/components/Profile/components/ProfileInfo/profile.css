@@ -1,48 +1,28 @@
-/* Add some style to the box */
-.box {
-  border: 1px solid black;
-  border-radius: 10px;
-  margin: 10px;
-  padding: 10px;
-}
-
-/* Add some style to the product name */
 .product-name {
   font-style: italic;
 }
 
-/* Add some style to the image */
-.image {
-  border: 1px solid black;
-  border-radius: 5px;
-}
-
-/* Add some style to the quantity and price */
 .quantity,
 .price {
   font-style: italic;
 }
 
-/* Apply consistent styling to the entire page */
 .profileSection {
   padding: 20px;
 }
 
-/* Apply consistent styling to the breadcrumb navigation */
 .breadcrumb {
   background-color: #f8f9fa;
   border-radius: 5px;
   padding: 10px;
 }
 
-/* Apply consistent styling to the card elements */
 .card {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   margin-bottom: 20px;
 }
 
-/* Apply consistent styling to the buttons */
 .btn {
   background-color: #007bff;
   color: #fff;

@@ -11,13 +11,19 @@ import { useQueryClient } from "react-query";
 import { CircularProgress } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import Swal from "sweetalert2";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 const OrderItemsComponent = () => {
+  const order = useSelector((state) => state.order.cartItems);
+  const loading = useSelector((state) => state.order.loading);
+  const { status } = useParams();
+  const queryClient = useQueryClient();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
   const handleClick = () => {
@@ -32,15 +38,87 @@ const OrderItemsComponent = () => {
     setOpen(false);
   };
 
-  const order = useSelector((state) => state.order.cartItems);
-  const loading = useSelector((state) => state.order.loading);
-  const queryClient = useQueryClient();
+  const confirmPayment = async () => {
+    const response = await fetch(
+      "http://127.0.0.1:8000/orders/stripe_payment",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: order.total_price }),
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      const stripe = await loadStripe(
+        "pk_test_51OCud2FDejSiAyCJ3rLcLEbppC8ASnxLLvIzD70OvZ51RvbQgQMQAbqtVap754a43iNuzboLpiCGPxd4bJ0xM7Rf00KI9H8f5m"
+      );
+
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: data.sessionId,
+      });
+      await confirmOrder();
+
+      if (error) {
+        Swal.fire({
+          icon: "error",
+          title: "failed to confirm order",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "failed to confirm order",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+  };
+
+  const confirmOrder = React.useCallback(async () => {
+    console.log(order.total_price);
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/orders/submit_order",
+        { userId: localStorage.id }
+      );
+      queryClient.invalidateQueries("order");
+      handleClick();
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  }, [queryClient]);
+
   useEffect(() => {
     if (!localStorage.id || !localStorage.access || !localStorage.refresh) {
       navigate("/signIn");
       return;
     }
-  });
+  }, [navigate]);
+  useEffect(() => {
+    if (status === "success") {
+      Swal.fire({
+        icon: "success",
+        title: "Order Fulfilled Successfully",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+      confirmOrder();
+      navigate("/profile");
+    } else if (status === "fail") {
+      Swal.fire({
+        icon: "error",
+        title: "failed to confirm order",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+  }, [status, confirmOrder, navigate]);
 
   return (
     <>
@@ -61,7 +139,6 @@ const OrderItemsComponent = () => {
                       <div key={orderItem.product.id} className="w-100 mb-5">
                         <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between mb-4">
                           <div className=" text-lg-start mb-3 mb-lg-0">
-                            {console.log(`${orderItem.product.image}`)}
                             <img
                               className="rounded"
                               src={orderItem.product.image}
@@ -78,7 +155,7 @@ const OrderItemsComponent = () => {
                               sx={{
                                 fontSize: "60px",
                                 cursor: "pointer",
-                                color: "blue",
+                                color: "black",
                               }}
                               onClick={async () => {
                                 try {
@@ -103,7 +180,7 @@ const OrderItemsComponent = () => {
                               sx={{
                                 fontSize: "60px",
                                 cursor: "pointer",
-                                color: "blue",
+                                color: "black",
                               }}
                               onClick={async () => {
                                 try {
@@ -123,7 +200,7 @@ const OrderItemsComponent = () => {
                             />
                           </div>
                           <div className="d-flex align-items-center justify-content-center justify-content-lg-between pt-3 fs-3 mx-5 mx-lg-0">
-                            <p>{orderItem.product.price}EGP</p>
+                            <p>{orderItem.product.price} USD</p>
                           </div>
                           <div className="d-flex align-items-center justify-content-center justify-content-lg-between mx-5 mx-lg-0">
                             <DeleteSharp
@@ -155,25 +232,13 @@ const OrderItemsComponent = () => {
                     ))}
                     <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between">
                       <div className="btn bg-light btn-lg fs-2 px-5 border border-1 border-dark text-dark mb-3 mb-lg-0 me-5">
-                        Total Cost: {order.total_price}EGP
+                        Total Cost: {order.total_price} USD
                       </div>
                       <button
-                        className="btn bg-danger btn-lg fs-2 px-5 text-light"
-                        onClick={async () => {
-                          try {
-                            const response = await axios.post(
-                              "http://localhost:8000/orders/submit_order",
-                              { userId: localStorage.id }
-                            );
-                            queryClient.invalidateQueries("order");
-                            handleClick();
-                            return response;
-                          } catch (error) {
-                            console.error(error);
-                          }
-                        }}
+                        className="btn bg-success  btn-lg fs-2 px-5 text-light"
+                        onClick={confirmPayment}
                       >
-                        Confirm Order
+                        Proceed to Checkout
                       </button>
                     </div>
                   </div>
