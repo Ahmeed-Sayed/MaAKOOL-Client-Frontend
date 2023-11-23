@@ -11,7 +11,7 @@ export default function ContactUs() {
       name: "",
       email: "",
       phone: "",
-      feedback: "",
+      text: "",
     },
     validationSchema: Yup.object({
       name: Yup.string()
@@ -29,7 +29,7 @@ export default function ContactUs() {
           "Phone number must start with 010, 011, 012, or 015 and be 11 digits long"
         )
         .required("Required"),
-      feedback: Yup.string()
+      text: Yup.string()
         .required("Please enter a your feedback")
         .max(200, "Max length of feedback is 200 characters"),
     }),
@@ -40,7 +40,7 @@ export default function ContactUs() {
           console.log("Form submission successful:", response.data);
           Swal.fire({
             icon: "success",
-            title: "Thank you for your feedback.",
+            title: "Thank you for your Feedback.",
             showConfirmButton: false,
             timer: 3000,
           });
@@ -50,7 +50,7 @@ export default function ContactUs() {
           console.error("Error submitting form:", error);
           Swal.fire({
             icon: "error",
-            title: "Failed to send feedback, please try again later.",
+            title: "Failed to send text, please try again later.",
             showConfirmButton: false,
             timer: 2000,
           });
@@ -141,15 +141,15 @@ export default function ContactUs() {
                   <textarea
                     type="text"
                     className="form-control py-2 fs-5"
-                    value={formik.values.feedback}
+                    value={formik.values.text}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    name="feedback"
+                    name="text"
                     rows={4}
                   />
-                  {formik.touched.feedback && formik.errors.feedback ? (
+                  {formik.touched.text && formik.errors.text ? (
                     <p className="alert alert-danger mt-2 py-1">
-                      {formik.errors.feedback}
+                      {formik.errors.text}
                     </p>
                   ) : null}
                 </div>
