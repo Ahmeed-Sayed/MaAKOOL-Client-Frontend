@@ -16,7 +16,7 @@ const ProfileInfo = ({ user }) => {
         `http://localhost:8000/orders/userOrders/${localStorage.id}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.access}`, // Replace with your actual authentication token
+            Authorization: `Bearer ${localStorage.access}`,
           },
         }
       );
