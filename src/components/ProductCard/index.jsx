@@ -70,7 +70,6 @@ export default function ProudctCard(props) {
                 icon={<FavoriteIcon fontSize="inherit" />}
                 emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
               />
-              {console.log(Math.round(3.4), Math.round(3.5), Math.round(3.6))}
               <Typography>Ratings</Typography>
             </div>
             <CardActions
