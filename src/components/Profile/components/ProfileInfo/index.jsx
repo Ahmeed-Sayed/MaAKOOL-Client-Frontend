@@ -2,39 +2,57 @@ import { Link, useNavigate } from "react-router-dom";
 import "./profile.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Stack } from "@mui/system";
+import { Pagination } from "@mui/material";
 
 const ProfileInfo = ({ user }) => {
-  const [userOrders, setUserOrders] = useState({});
+  const [sortOrder, setSortOrder] = useState(""); // "asc" or "desc"
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [userOrders, setUserOrders] = useState({
+    userOrders: [],
+    total_pages: 1,
+  });
   const [userInfo, setUserInfo] = useState({});
+  const formattedDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, options);
+  };
   const itemTotalPrice = (item) => {
     return item.quantity * item.product.price;
   };
   const navigate = useNavigate();
+
   const getUserOrders = async () => {
+    console.log(currentPage);
     try {
       const { data } = await axios.get(
         `http://localhost:8000/orders/userOrders/${localStorage.id}`,
         {
+          params: {
+            order: sortOrder,
+            page: currentPage,
+          },
           headers: {
-            Authorization: `Bearer ${localStorage.access}`, // Replace with your actual authentication token
+            Authorization: `Bearer ${localStorage.access}`,
           },
         }
       );
-      const sortedUserOrders = data.userOrders.sort((a, b) => {
-        const dateA = new Date(a.creating_date).getTime();
-        const dateB = new Date(b.creating_date).getTime();
 
-        return dateB - dateA;
-      });
       setUserOrders(data.userOrders);
-      console.log(sortedUserOrders);
+      setTotalPages(data.total_pages);
     } catch (error) {
-      console.log(localStorage.access);
-      console.log(localStorage.refresh);
       console.error("Error fetching user orders:", error);
-      return null;
     }
   };
+
   const getUserInfo = async () => {
     try {
       const { data } = await axios.get(
@@ -48,8 +66,16 @@ const ProfileInfo = ({ user }) => {
       setUserInfo(data);
     } catch (error) {
       console.error("Error fetching user info:", error);
-      return null;
     }
+  };
+
+  const handleSortOrderChange = (newSortOrder) => {
+    setSortOrder(newSortOrder);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
   };
 
   useEffect(() => {
@@ -59,19 +85,13 @@ const ProfileInfo = ({ user }) => {
     }
     getUserInfo();
     getUserOrders();
-  }, []);
-  const formattedDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    };
-    const date = new Date(dateString);
-    return date.toLocaleDateString(undefined, options);
-  };
+  }, [currentPage]);
 
+  useEffect(() => {
+    if (sortOrder !== "") {
+      getUserOrders();
+    }
+  }, [sortOrder, currentPage]);
   return (
     <>
       <section className="profileSection">
@@ -172,57 +192,79 @@ const ProfileInfo = ({ user }) => {
             <div className="card mb-4">
               <div className="card-body">
                 <h4 className="mb-3">Order History</h4>
+                <div className="mb-3">
+                  {/* Sorting options */}
+                  <div className="d-flex justify-content-end flex-column  ">
+                    <select
+                      id="sortOrder"
+                      className="form-select border border-5 border-primary text-dark w-25"
+                      value={sortOrder}
+                      onChange={(e) => handleSortOrderChange(e.target.value)}
+                    >
+                      <option value="">Select Order</option>
+                      <option value="asc">Date Ascending</option>
+                      <option value="desc">Date Descending</option>
+                    </select>
+                  </div>
+                </div>
+
                 {userOrders && userOrders.length > 0 ? (
                   userOrders.map((order, index) => (
-                    <div key={index}>
-                      <div className="row">
+                    <div
+                      key={index}
+                      className="mb-4 shadow shadow-lg rounded p-4"
+                    >
+                      {/* Order Information */}
+                      <div className="row mb-3  ">
                         <div className="col-sm-4">
-                          <p className="mb-0">Order Created Date</p>
+                          <p className="mb-0">Creation Date</p>
                         </div>
-                        <div className="col-sm-8  ">
+                        <div className="col-sm-8">
                           <p className="text-muted mb-0">
                             {formattedDate(order.creating_date)}
                           </p>
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-3">
                         <div className="col-sm-4">
                           <p className="mb-0">Total Price</p>
                         </div>
                         <div className="col-sm-8">
-                          <p className=" mb-0 price">{order.total_price} EGP</p>
+                          <p className=" mb-0 price">{order.total_price} USD</p>
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-3">
                         <div className="col-sm-4">
                           <p className="mb-0">Order Status</p>
                         </div>
                         <div className="col-sm-8">
                           <p className=" mb-3 price text-info">
-                            {order.status}{" "}
+                            {order.status}
                           </p>
                         </div>
                       </div>
+
                       <div className="row">
                         <div className="col-sm-12">
-                          <p className="mb-0">Products</p>
+                          <h5>Order Products</h5>
                         </div>
-                        <div className="col-sm-12 ">
-                          <div className="shadow shadow-lg p-3 rounded mt-2">
-                            <div className="mt-3 d-flex flex-row align-items-center justify-content-around">
-                              <p className="product-name w-25 text-center">
-                                <strong>Name</strong>
-                              </p>
-                              <p>
-                                <strong>Image</strong>
-                              </p>
-                              <p className="quantity w-25 text-center">
-                                <strong>Quantity</strong>
-                              </p>
-                              <p className="price w-25 text-center">
-                                <strong>Price</strong>
-                              </p>
-                            </div>
+
+                        <div className="col-sm-12 shadow shadow-lg p-3 rounded mt-2">
+                          <div className="mt-3 d-flex flex-row align-items-center justify-content-around">
+                            <p className="product-name w-25 text-center">
+                              <strong>Name</strong>
+                            </p>
+                            <p>
+                              <strong>Image</strong>
+                            </p>
+                            <p className="quantity w-25 text-center">
+                              <strong>Quantity</strong>
+                            </p>
+                            <p className="price w-25 text-center">
+                              <strong>Price</strong>
+                            </p>
+                          </div>
+                          <div className="">
                             {order.orderItems &&
                               order.orderItems.map((orderItem, i) => (
                                 <div
@@ -238,6 +280,7 @@ const ProfileInfo = ({ user }) => {
                                       width={100}
                                       height={50}
                                       className="rounded image"
+                                      alt={orderItem.product.name}
                                     />
                                   </div>
                                   <p className="quantity w-25 text-center">
@@ -251,12 +294,22 @@ const ProfileInfo = ({ user }) => {
                           </div>
                         </div>
                       </div>
-
-                      {index !== userOrders.length - 1 && <hr />}
                     </div>
                   ))
                 ) : (
                   <p>Your order history is empty.</p>
+                )}
+
+                {/* Pagination */}
+                {userOrders && totalPages > 1 && (
+                  <div className="d-flex justify-content-center mt-4">
+                    <Pagination
+                      count={totalPages}
+                      page={currentPage}
+                      onChange={handlePageChange}
+                      color="primary"
+                    />
+                  </div>
                 )}
               </div>
             </div>
