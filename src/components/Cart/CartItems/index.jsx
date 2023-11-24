@@ -59,7 +59,6 @@ const OrderItemsComponent = () => {
       const { error } = await stripe.redirectToCheckout({
         sessionId: data.sessionId,
       });
-      await confirmOrder();
 
       if (error) {
         Swal.fire({
@@ -80,7 +79,6 @@ const OrderItemsComponent = () => {
   };
 
   const confirmOrder = React.useCallback(async () => {
-    console.log(order.total_price);
     try {
       const response = await axios.post(
         "http://localhost:8000/orders/submit_order",
@@ -109,6 +107,7 @@ const OrderItemsComponent = () => {
         timer: 3000,
       });
       confirmOrder();
+
       navigate("/profile");
     } else if (status === "fail") {
       Swal.fire({

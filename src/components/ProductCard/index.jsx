@@ -7,11 +7,23 @@ import {
   CardActionArea,
   CardActions,
   Grid,
+  Rating,
   Tooltip,
 } from "@mui/material";
 import "./card.css";
 import axios from "axios";
 import { useQueryClient } from "react-query";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import styled from "@emotion/styled";
+const StyledRating = styled(Rating)({
+  "& .MuiRating-iconFilled": {
+    color: "#ff6d75",
+  },
+  "& .MuiRating-iconHover": {
+    color: "#ff3d47",
+  },
+});
 
 export default function ProudctCard(props) {
   const cardStyle = {
@@ -20,6 +32,8 @@ export default function ProudctCard(props) {
     height: "480px",
     boxShadow: "4px 1px 26px 0px rgba(0, 0, 0, 0.1)",
   };
+
+  const formatRating = (rating) => {};
   const queryClient = useQueryClient();
   return !props.products ? (
     <div className="fs-1 text-center mt-1 "> No Data To show</div>
@@ -46,6 +60,18 @@ export default function ProudctCard(props) {
                 </Typography>
               </CardContent>
             </CardActionArea>
+            <div className="d-flex justify-content-between px-3 ">
+              <StyledRating
+                name="customized-color"
+                defaultValue={1}
+                getLabelText={(value) =>
+                  `${value} Heart${value !== 1 ? "s" : ""}`
+                }
+                icon={<FavoriteIcon fontSize="inherit" />}
+                emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+              />
+              <Typography>Ratings</Typography>
+            </div>
             <CardActions
               sx={{ justifyContent: "space-between", marginBottom: "15" }}
             >
