@@ -1,7 +1,6 @@
 import { useState } from "react";
 import signup_img from "../../assets/Images/signup_img.avif";
 import "./SignUp.css";
-
 import {
   Container,
   Grid,
@@ -16,7 +15,6 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import Swal from "sweetalert2";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -172,13 +170,7 @@ function SignUp() {
         }
       );
       if (response.ok) {
-        Swal.fire({
-          icon: "success",
-          title: "Sign up was Sucessfull, You can now login",
-          showConfirmButton: false,
-          timer: 2000,
-        });
-        setTimeout(navigate("/"), 1000);
+        navigate("/VerifyEmail");
       } else {
         const data = await response.json();
         console.log(data, formData);
@@ -337,9 +329,6 @@ function SignUp() {
                   error={Boolean(formErrors.addressError)}
                   helperText={formErrors.addressError}
                 />
-              </Grid>
-              <Grid item xs={6}>
-                <button className="btn btn-lg btn-dark w-100">Cancel</button>
               </Grid>
               <Grid item xs={6}>
                 <button className="btn btn-danger w-100 btn-lg">

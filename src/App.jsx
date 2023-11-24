@@ -15,6 +15,7 @@ import ProfileEdit from "./components/ProfileEdit";
 import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignIn/SignIn";
 import BrowseCatg from "./components/BrowseCatg";
+import VerifyEmail from "./components/verify/VerifyEmail";
 import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 import axios from "axios";
@@ -65,6 +66,7 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/VerifyEmail" element={<VerifyEmail />} />
             <Route path="/not-found" element={<NotFound />} />
             <Route path="/ForgetPassword" element={<ForgetPassword />} />
             <Route
