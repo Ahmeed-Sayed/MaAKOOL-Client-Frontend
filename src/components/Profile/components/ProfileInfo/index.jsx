@@ -217,6 +217,14 @@ const ProfileInfo = ({ user }) => {
                       {/* Order Information */}
                       <div className="row mb-3  ">
                         <div className="col-sm-4">
+                          <p className="mb-0">Order Number</p>
+                        </div>
+                        <div className="col-sm-8">
+                          <p className="text-muted mb-0">{order.id}</p>
+                        </div>
+                      </div>{" "}
+                      <div className="row mb-3">
+                        <div className="col-sm-4">
                           <p className="mb-0">Creation Date</p>
                         </div>
                         <div className="col-sm-8">
@@ -243,7 +251,6 @@ const ProfileInfo = ({ user }) => {
                           </p>
                         </div>
                       </div>
-
                       <div className="row">
                         <div className="col-sm-12">
                           <h5>Order Products</h5>
