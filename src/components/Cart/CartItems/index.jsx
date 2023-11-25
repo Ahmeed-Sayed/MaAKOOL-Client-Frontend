@@ -199,7 +199,7 @@ const OrderItemsComponent = () => {
                             />
                           </div>
                           <div className="d-flex align-items-center justify-content-center justify-content-lg-between pt-3 fs-3 mx-5 mx-lg-0">
-                            <p>{orderItem.product.price} USD</p>
+                            <p>{orderItem.product.price} EGP</p>
                           </div>
                           <div className="d-flex align-items-center justify-content-center justify-content-lg-between mx-5 mx-lg-0">
                             <DeleteSharp
@@ -231,7 +231,7 @@ const OrderItemsComponent = () => {
                     ))}
                     <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between">
                       <div className="btn bg-light btn-lg fs-2 px-5 border border-1 border-dark text-dark mb-3 mb-lg-0 me-5">
-                        Total Cost: {order.total_price} USD
+                        Total Cost: {order.total_price} EGP
                       </div>
                       <button
                         className="btn bg-success  btn-lg fs-2 px-5 text-light"

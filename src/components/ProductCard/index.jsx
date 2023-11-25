@@ -80,7 +80,7 @@ export default function ProudctCard(props) {
               sx={{ justifyContent: "space-between", marginBottom: "15" }}
             >
               <Typography size="small" color="primary" fontSize={"large"}>
-                {product.price} USD
+                {product.price} EGP
               </Typography>
               <Tooltip
                 title={!localStorage.id ? "You need to be logged in" : ""}
