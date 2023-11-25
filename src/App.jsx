@@ -27,11 +27,30 @@ import NotFound from "./components/NotFound";
 function App() {
   const fetchOrder = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8000/orders/orders/");
+      let page = 1;
+      let allOrders = [];
 
-      const nonOrderedOrders = data.results.filter((order) => {
-        return order.ordered === false && order.user.id == localStorage.id;
-      });
+      while (true) {
+        const { data } = await axios.get(
+          `http://localhost:8000/orders/orders/?page=${page}`
+        );
+
+        const pageOrders = data.results.filter(
+          (order) => order.ordered === false && order.user.id == localStorage.id
+        );
+        console.log(pageOrders);
+        allOrders = allOrders.concat(pageOrders);
+
+        if (page < data.total_pages) {
+          page++;
+        } else {
+          break;
+        }
+      }
+      const nonOrderedOrders = allOrders.filter(
+        (order) => order.ordered === false && order.user.id == localStorage.id
+      );
+
       return nonOrderedOrders.length > 0 ? nonOrderedOrders[0] : null;
     } catch (error) {
       console.error("Error fetching orders:", error);

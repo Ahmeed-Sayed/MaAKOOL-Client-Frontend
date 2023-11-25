@@ -217,6 +217,14 @@ const ProfileInfo = ({ user }) => {
                       {/* Order Information */}
                       <div className="row mb-3  ">
                         <div className="col-sm-4">
+                          <p className="mb-0">Order Number</p>
+                        </div>
+                        <div className="col-sm-8">
+                          <p className="text-muted mb-0">{order.id}</p>
+                        </div>
+                      </div>{" "}
+                      <div className="row mb-3">
+                        <div className="col-sm-4">
                           <p className="mb-0">Creation Date</p>
                         </div>
                         <div className="col-sm-8">
@@ -230,7 +238,7 @@ const ProfileInfo = ({ user }) => {
                           <p className="mb-0">Total Price</p>
                         </div>
                         <div className="col-sm-8">
-                          <p className=" mb-0 price">{order.total_price} USD</p>
+                          <p className=" mb-0 price">{order.total_price} EGP</p>
                         </div>
                       </div>
                       <div className="row mb-3">
@@ -243,7 +251,6 @@ const ProfileInfo = ({ user }) => {
                           </p>
                         </div>
                       </div>
-
                       <div className="row">
                         <div className="col-sm-12">
                           <h5>Order Products</h5>
@@ -287,7 +294,7 @@ const ProfileInfo = ({ user }) => {
                                     {orderItem.quantity}
                                   </p>
                                   <p className="price w-25 text-center">
-                                    {itemTotalPrice(orderItem)} USD
+                                    {itemTotalPrice(orderItem)} EGP
                                   </p>
                                 </div>
                               ))}
