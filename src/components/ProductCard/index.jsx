@@ -26,15 +26,14 @@ const StyledRating = styled(Rating)({
 });
 
 export default function ProudctCard(props) {
+  const queryClient = useQueryClient();
+
   const cardStyle = {
     display: "flex",
     flexDirection: "column",
     height: "480px",
     boxShadow: "4px 1px 26px 0px rgba(0, 0, 0, 0.1)",
   };
-
-  const formatRating = (rating) => {};
-  const queryClient = useQueryClient();
   return !props.products ? (
     <div className="fs-1 text-center mt-1 "> No Data To show</div>
   ) : (
@@ -60,17 +59,22 @@ export default function ProudctCard(props) {
                 </Typography>
               </CardContent>
             </CardActionArea>
-            <div className="d-flex justify-content-between px-3 ">
-              <StyledRating
-                name="customized-color"
-                defaultValue={1}
-                getLabelText={(value) =>
-                  `${value} Heart${value !== 1 ? "s" : ""}`
-                }
-                icon={<FavoriteIcon fontSize="inherit" />}
-                emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-              />
-              <Typography>Ratings</Typography>
+            <div className="d-flex justify-content-between px-2 ">
+              <div className="d-flex align-items-center">
+                <StyledRating
+                  name={`customized-color-${product.id}`}
+                  value={product.avg_rating}
+                  onChange={(event, newValue) => {
+                    props.handleRatingSubmit(product.id, newValue);
+                  }}
+                  getLabelText={(value) =>
+                    `${value} Heart${value !== 1 ? "s" : ""}`
+                  }
+                  icon={<FavoriteIcon fontSize="inherit" />}
+                  emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+                />
+                <Typography>({product.total_ratings})</Typography>
+              </div>
             </div>
             <CardActions
               sx={{ justifyContent: "space-between", marginBottom: "15" }}
