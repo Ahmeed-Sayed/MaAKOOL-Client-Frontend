@@ -330,8 +330,8 @@ function SignUp() {
                   helperText={formErrors.addressError}
                 />
               </Grid>
-              <Grid item xs={6}>
-                <button className="btn btn-danger w-100 btn-lg">
+              <Grid item xs={12} className="d-flex jusify-content-center">
+                <button className="btn  bg-primary w-100 btn-lg">
                   Register
                 </button>
               </Grid>
