@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router";
-
+import { useNavigate } from 'react-router';
+import Swal from 'sweetalert2';
 
 export default function VerifyEmail() {
   const [email, setEmail] = useState('');
@@ -20,14 +20,34 @@ export default function VerifyEmail() {
       });
 
       if (response.ok) {
-        console.log('Account verified successfully!');
+        handleVerificationSuccess();
       } else {
-        console.error('Verification failed:', response.statusText);
+        handleVerificationError();
       }
-      navigate("/signin")
     } catch (error) {
       console.error('Error occurred during verification:', error);
+      handleVerificationError();
     }
+  };
+
+  const handleVerificationSuccess = () => {
+    Swal.fire({
+      icon: 'success',
+      title: 'Account Verified!',
+      text: 'Your account is verified and active.',
+    }).then((result) => {
+      if (result.isConfirmed || result.isDismissed) {
+        navigate('/signin');
+      }
+    });
+  };
+
+  const handleVerificationError = () => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Verification Failed!',
+      text: 'Something went wrong. Please check your details and try again.',
+    });
   };
 
   return (
@@ -66,3 +86,5 @@ export default function VerifyEmail() {
     </>
   );
 }
+
+
