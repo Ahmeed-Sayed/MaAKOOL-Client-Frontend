@@ -55,7 +55,7 @@ export default function AppSwiper() {
                       src={`http://127.0.0.1:8000/${offer.image}`}
                       alt={`slide-${index + 1}`}
                       className="rounded"
-                      style={{ width: "500px", height: "400px" }}
+                      style={{ width: "500px", height: "500px" }}
                     />
                   </Link>
                 </div>

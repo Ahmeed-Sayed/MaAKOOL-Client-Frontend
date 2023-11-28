@@ -191,16 +191,14 @@ function SignUp() {
 
   return (
     <Container maxWidth="lg" sx={{ marginTop: "3.5rem" }}>
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         <Grid item xs={12} sm={6}>
           <img
             src={signup_img}
             alt="signup image"
             style={{
               width: "100%",
-              height: "80%",
-              objectFit: "cover",
-              objectPosition: "center",
+              height: "90%",
               borderRadius: "15px",
             }}
           />
