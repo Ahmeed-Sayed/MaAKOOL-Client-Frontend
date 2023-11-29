@@ -197,7 +197,7 @@ const ProfileInfo = ({ user }) => {
                   <div className="d-flex justify-content-end flex-column  ">
                     <select
                       id="sortOrder"
-                      className="form-select border border-5 border-primary text-dark w-25"
+                      className="form-select border border-2 border-primary text-primary w-25"
                       value={sortOrder}
                       onChange={(e) => handleSortOrderChange(e.target.value)}
                     >
@@ -214,7 +214,6 @@ const ProfileInfo = ({ user }) => {
                       key={index}
                       className="mb-4 shadow shadow-lg rounded p-4"
                     >
-                      {/* Order Information */}
                       <div className="row mb-3  ">
                         <div className="col-sm-4">
                           <p className="mb-0">Order Number</p>

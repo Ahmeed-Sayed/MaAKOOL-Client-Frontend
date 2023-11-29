@@ -73,7 +73,13 @@ function SignUp() {
         errors.confirmPasswordError = validateConfirmPassword(value);
         break;
       case "address":
-        errors.addressError = value.trim() === "" ? "Address is required." : "";
+        const trimmedValue = value.trim();
+        errors.addressError =
+          trimmedValue === ""
+            ? "Address is required."
+            : trimmedValue.length < 15
+            ? "Please enter a valid and complete address"
+            : "";
         break;
       default:
         break;
@@ -191,16 +197,14 @@ function SignUp() {
 
   return (
     <Container maxWidth="lg" sx={{ marginTop: "3.5rem" }}>
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         <Grid item xs={12} sm={6}>
           <img
             src={signup_img}
             alt="signup image"
             style={{
               width: "100%",
-              height: "80%",
-              objectFit: "cover",
-              objectPosition: "center",
+              height: "90%",
               borderRadius: "15px",
             }}
           />
@@ -330,9 +334,9 @@ function SignUp() {
                   helperText={formErrors.addressError}
                 />
               </Grid>
-              <Grid item xs={6}>
-                <button className="btn btn-danger w-100 btn-lg">
-                  Register
+              <Grid item xs={12} className="d-flex jusify-content-center">
+                <button className="btn  bg-primary w-100 btn-lg">
+                  Confirm
                 </button>
               </Grid>
             </Grid>

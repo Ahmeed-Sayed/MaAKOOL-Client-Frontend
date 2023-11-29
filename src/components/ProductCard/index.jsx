@@ -39,7 +39,7 @@ export default function ProudctCard(props) {
   ) : (
     <Grid container spacing={2} p={2.5}>
       {props.products.map((product, index) => (
-        <Grid item key={index} xs={12} xl={2} sm={4} md={3}>
+        <Grid item key={index} xs={12} xl={2} lg={3} sm={4} md={4}>
           <Card sx={{ padding: 1.5 }} style={cardStyle}>
             <CardActionArea style={{ flex: "1" }}>
               <CardMedia
@@ -79,7 +79,7 @@ export default function ProudctCard(props) {
             <CardActions
               sx={{ justifyContent: "space-between", marginBottom: "15" }}
             >
-              <Typography size="small" color="primary" fontSize={"large"}>
+              <Typography size="small" color="primary" fontSize={"md"}>
                 {product.price} EGP
               </Typography>
               <Tooltip

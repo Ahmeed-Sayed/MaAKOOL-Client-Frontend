@@ -17,12 +17,6 @@ const SignIn = () => {
     localStorage.setItem("id", response.user.id);
     localStorage.setItem("access", response.access);
     localStorage.setItem("refresh", response.refresh);
-    Swal.fire({
-      icon: "success",
-      title: "Login Successful!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
   };
 
   const handleSubmit = async (e) => {
@@ -68,12 +62,12 @@ const SignIn = () => {
     <>
       <div className="container mt-3">
         <div className="row">
-          <div className="col-md-7 d-flex justify-content-end">
+          <div className="col-md-7 mt-3 d-flex justify-content-end">
             <img
               src={signin_img}
               alt="signin image"
               style={{
-                width: "75%",
+                width: "90%",
                 height: "500px",
                 objectFit: "fill",
                 objectPosition: "center",
