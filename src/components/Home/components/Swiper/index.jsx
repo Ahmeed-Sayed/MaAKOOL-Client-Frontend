@@ -52,7 +52,7 @@ export default function AppSwiper() {
                 <div className="d-flex justify-content-center">
                   <Link to={"browse/"}>
                     <img
-                      src={`http://127.0.0.1:8000/${offer.image}`}
+                      src={`http://127.0.0.1:8000${offer.image}`}
                       alt={`slide-${index + 1}`}
                       className="rounded"
                       style={{ width: "500px", height: "500px" }}
