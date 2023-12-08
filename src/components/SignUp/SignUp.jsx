@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -237,7 +238,6 @@ function SignUp() {
                   helperText={formErrors.usernameError}
                 />
               </Grid>
-
               <Grid item xs={6} sm={6}>
                 <TextField
                   fullWidth
@@ -253,7 +253,6 @@ function SignUp() {
                   helperText={formErrors.emailError}
                 />
               </Grid>
-
               <Grid item xs={6}>
                 <FormControl fullWidth variant="outlined">
                   <InputLabel>Password</InputLabel>
@@ -323,7 +322,6 @@ function SignUp() {
                   helperText={formErrors.phoneError}
                 />
               </Grid>
-
               <Grid item xs={6}>
                 <TextField
                   fullWidth
@@ -339,9 +337,14 @@ function SignUp() {
                 />
               </Grid>
               <Grid item xs={12} className="d-flex jusify-content-center">
-                <button className="btn  bg-primary w-100 btn-lg">
+                <button className="btn  bg-danger text-light w-100 btn-lg">
                   Confirm
                 </button>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography sx={{ marginTop: 2 }}>
+                  Already have an account? <Link to="/signin">Login</Link>
+                </Typography>
               </Grid>
             </Grid>
           </form>

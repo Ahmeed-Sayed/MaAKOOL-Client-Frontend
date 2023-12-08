@@ -109,13 +109,17 @@ const SignIn = () => {
                 />
                 <label htmlFor="floatingPassword">Password</label>
               </div>
-              <Link to="/ForgetPassword"> forget password </Link>
+              <Link to="/ForgetPassword"> Forget password </Link>
               <button
                 type="submit"
                 className="mt-3 btn btn-lg btn-danger w-100 bg-danger"
               >
                 Log In
               </button>
+
+              <div className=" mt-3">
+                New to the site? <Link to="/signup"> Create Account</Link>
+              </div>
             </form>
           </div>
         </div>

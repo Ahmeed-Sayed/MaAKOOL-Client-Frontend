@@ -33,7 +33,7 @@ export default function SearchField() {
         <div className="col">
           <button
             onClick={handleSearch}
-            className="btn btn-danger shadow-danger px-4 py-2 shadow fs-5"
+            className="btn bg-danger text-light px-4 py-2 shadow fs-5"
           >
             Search
           </button>

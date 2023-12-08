@@ -78,7 +78,9 @@ const Header = () => {
       <div className="upperHeader align-items-center bg-dark d-flex justify-content-between px-3 py-1">
         <Box sx={{ display: { xs: "none", sm: "block" } }}>
           <div className="upperHeaderLeft bg-light rounded">
-            <h5 className="px-3 py-3 fw-bold">Ma'AKOOL</h5>
+            <Link className="text-decoration-none text-dark" to="/">
+              <h5 className="px-3 py-3 fw-bold">Ma'AKOOL</h5>
+            </Link>
           </div>
         </Box>
         <div className="upperHeaderRight d-flex flex-row">
@@ -163,7 +165,7 @@ const Header = () => {
                     className="nav-link text-light"
                     to={`/browse/${category.id}`}
                   >
-                    {category.name}
+                    <span className="fw-bold">{category.name}</span>
                   </Link>
                 </li>
               ))

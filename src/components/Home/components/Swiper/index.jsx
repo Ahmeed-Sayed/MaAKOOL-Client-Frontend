@@ -9,9 +9,9 @@ import "./styles.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 export default function AppSwiper() {
   const [offers, setOffers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchOffers = async () => {
     try {
@@ -20,6 +20,7 @@ export default function AppSwiper() {
       );
       console.log(response.data);
       setOffers(response.data);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error during fetching offers:", error);
     }
@@ -29,6 +30,10 @@ export default function AppSwiper() {
     fetchOffers();
   }, []);
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <div className="container swip mt-5 d-flex align-items-center justify-content-center">
@@ -36,7 +41,7 @@ export default function AppSwiper() {
           spaceBetween={30}
           centeredSlides={true}
           autoplay={{
-            delay: 5000,
+            delay: 3000,
             disableOnInteraction: false,
           }}
           pagination={{
@@ -55,7 +60,7 @@ export default function AppSwiper() {
                       src={`http://127.0.0.1:8000${offer.image}`}
                       alt={`slide-${index + 1}`}
                       className="rounded"
-                      style={{ width: "500px", height: "500px" }}
+                      style={{ width: "450px", height: "450px" }}
                     />
                   </Link>
                 </div>
