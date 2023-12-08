@@ -1,5 +1,5 @@
 import signin_img from "../../assets/Images/SignIn_img.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
@@ -11,7 +11,11 @@ const SignIn = () => {
   const [error, setError] = useState("");
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-
+  useEffect(() => {
+    if (localStorage.id && localStorage.access && localStorage.refresh) {
+      navigate("/");
+    }
+  }, []);
   const handleLogin = (response) => {
     console.log("Login successful!", response);
     localStorage.setItem("id", response.user.id);

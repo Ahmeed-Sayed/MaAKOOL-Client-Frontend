@@ -133,7 +133,7 @@ const OrderItemsComponent = () => {
               <>
                 <h1 className="mt-5 ms-5">Shopping Cart</h1>
                 <div className="container ">
-                  <div className="d-flex  flex-column justify-content-center align-items-center my-5 mx-5 py-5 shadow-lg rounded position-relative px-5">
+                  <div className="d-flex flex-column justify-content-center align-items-center my-3 mx-2 py-3 shadow-lg rounded position-relative px-3">
                     {order.orderItems.map((orderItem) => (
                       <div key={orderItem.product.id} className="w-100 mb-5">
                         <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between mb-4">
@@ -230,7 +230,7 @@ const OrderItemsComponent = () => {
                       </div>
                     ))}
                     <div className="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between">
-                      <div className="btn bg-light btn-lg fs-2 px-5 border border-1 border-dark text-dark mb-3 mb-lg-0 me-5">
+                      <div className=" bg-light btn-lg fs-2 px-5 border border-1 border-dark text-dark mb-3 mb-lg-0 me-5 d-flex align-items-center">
                         Total Cost: {order.total_price} EGP
                       </div>
                       <button

@@ -2,10 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import "./profile.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Stack } from "@mui/system";
-import { Pagination } from "@mui/material";
+import { Pagination, Typography, Rating } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import styled from "@emotion/styled";
+import { useQuery, useQueryClient } from "react-query";
 
-const ProfileInfo = ({ user }) => {
+const ProfileInfo = () => {
   const [sortOrder, setSortOrder] = useState(""); // "asc" or "desc"
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -13,6 +16,7 @@ const ProfileInfo = ({ user }) => {
     userOrders: [],
     total_pages: 1,
   });
+
   const [userInfo, setUserInfo] = useState({});
   const formattedDate = (dateString) => {
     const options = {
@@ -92,6 +96,44 @@ const ProfileInfo = ({ user }) => {
       getUserOrders();
     }
   }, [sortOrder, currentPage]);
+
+  const StyledRating = styled(Rating)({
+    "& .MuiRating-iconFilled": {
+      color: "#ff6d75",
+    },
+    "& .MuiRating-iconHover": {
+      color: "#ff3d47",
+    },
+  });
+  const queryClient = useQueryClient();
+  const { data, isLoading, isError } = useQuery(
+    ["fetchUserOrders"],
+    ({ queryKey }) => getUserOrders(queryKey[1])
+  );
+
+  const handleRatingSubmit = async (productId, userRating) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/resturant/rateProduct/",
+        {
+          product_id: productId,
+          user_id: localStorage.id,
+          rating_value: userRating,
+        }
+      );
+      queryClient.invalidateQueries("fetchUserOrders");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>Error fetching data</p>;
+  }
+
   return (
     <>
       <section className="profileSection">
@@ -193,7 +235,6 @@ const ProfileInfo = ({ user }) => {
               <div className="card-body">
                 <h4 className="mb-3">Order History</h4>
                 <div className="mb-3">
-                  {/* Sorting options */}
                   <div className="d-flex justify-content-end flex-column  ">
                     <select
                       id="sortOrder"
@@ -257,17 +298,20 @@ const ProfileInfo = ({ user }) => {
 
                         <div className="col-sm-12 shadow shadow-lg p-3 rounded mt-2">
                           <div className="mt-3 d-flex flex-row align-items-center justify-content-around">
-                            <p className="product-name w-25 text-center">
-                              <strong>Name</strong>
+                            <p className="w-25 text-center">
+                              <strong className="price px-4">Name</strong>
                             </p>
                             <p>
-                              <strong>Image</strong>
+                              <strong className="price px-4">Image</strong>
                             </p>
-                            <p className="quantity w-25 text-center">
-                              <strong>Quantity</strong>
+                            <p className="w-25 text-center">
+                              <strong className="price px-4">Quantity</strong>
                             </p>
-                            <p className="price w-25 text-center">
-                              <strong>Price</strong>
+                            <p className="w-25 text-center">
+                              <strong className="price px-4">Price</strong>
+                            </p>
+                            <p className="w-25 text-center">
+                              <strong className="price px-4">Rating</strong>
                             </p>
                           </div>
                           <div className="">
@@ -277,10 +321,10 @@ const ProfileInfo = ({ user }) => {
                                   key={i}
                                   className="mt-3 d-flex flex-row align-items-center justify-content-around"
                                 >
-                                  <p className="product-name w-25 text-center">
+                                  <p className="product-name w-25 mb-0 text-center">
                                     {orderItem.product.name}
                                   </p>
-                                  <div>
+                                  <div className=" d-flex justify-content-center ">
                                     <img
                                       src={`http://127.0.0.1:8000${orderItem.product.image}`}
                                       width={100}
@@ -289,12 +333,40 @@ const ProfileInfo = ({ user }) => {
                                       alt={orderItem.product.name}
                                     />
                                   </div>
-                                  <p className="quantity w-25 text-center">
+                                  <p className="quantity w-25 text-center mb-0">
                                     {orderItem.quantity}
                                   </p>
-                                  <p className="price w-25 text-center">
+                                  <p className="price w-25 text-center mb-0">
                                     {itemTotalPrice(orderItem)} EGP
                                   </p>
+                                  <div className="d-flex justify-content-center px-2 w-25 ">
+                                    <div className="d-flex align-items-center ">
+                                      <StyledRating
+                                        name={`customized-color-${orderItem.product.id}`}
+                                        value={orderItem.product.avg_rating}
+                                        onChange={(event, newValue) => {
+                                          handleRatingSubmit(
+                                            orderItem.product.id,
+                                            newValue
+                                          );
+                                        }}
+                                        getLabelText={(value) =>
+                                          `${value} Heart${
+                                            value !== 1 ? "s" : ""
+                                          }`
+                                        }
+                                        icon={
+                                          <FavoriteIcon fontSize="inherit" />
+                                        }
+                                        emptyIcon={
+                                          <FavoriteBorderIcon fontSize="inherit" />
+                                        }
+                                      />
+                                      <Typography>
+                                        ({orderItem.product.total_ratings})
+                                      </Typography>
+                                    </div>
+                                  </div>
                                 </div>
                               ))}
                           </div>
@@ -305,8 +377,6 @@ const ProfileInfo = ({ user }) => {
                 ) : (
                   <p>Your order history is empty.</p>
                 )}
-
-                {/* Pagination */}
                 {userOrders && totalPages > 1 && (
                   <div className="d-flex justify-content-center mt-4">
                     <Pagination

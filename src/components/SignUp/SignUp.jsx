@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import signup_img from "../../assets/Images/signup_img.avif";
 import "./SignUp.css";
 import {
@@ -35,7 +35,11 @@ function SignUp() {
     addressError: "",
     phoneError: "",
   });
-
+  useEffect(() => {
+    if (localStorage.id && localStorage.access && localStorage.refresh) {
+      navigate("/");
+    }
+  }, []);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e) => {
