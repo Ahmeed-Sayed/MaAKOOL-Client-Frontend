@@ -156,7 +156,7 @@ export default function ContactUs() {
               </div>
               <div className="d-flex justify-content-end pe-3 mb-3">
                 <button
-                  className="btn btn-lg btn-danger px-4 py-2"
+                  className="btn btn-lg bg-danger text-light px-4 py-2"
                   type="submit"
                 >
                   Submit

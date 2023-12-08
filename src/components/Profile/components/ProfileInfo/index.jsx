@@ -286,7 +286,7 @@ const ProfileInfo = () => {
                           <p className="mb-0">Order Status</p>
                         </div>
                         <div className="col-sm-8">
-                          <p className=" mb-3 price text-info">
+                          <p className=" mb-3 price fw-bold text-info">
                             {order.status}
                           </p>
                         </div>
@@ -310,11 +310,13 @@ const ProfileInfo = () => {
                             <p className="w-25 text-center">
                               <strong className="price px-4">Price</strong>
                             </p>
-                            <p className="w-25 text-center">
-                              <strong className="price px-4">Rating</strong>
-                            </p>
+                            {order.status === "Delivered" && (
+                              <p className="w-25 text-center">
+                                <strong className="price px-4">Rating</strong>
+                              </p>
+                            )}
                           </div>
-                          <div className="">
+                          <div>
                             {order.orderItems &&
                               order.orderItems.map((orderItem, i) => (
                                 <div
@@ -339,34 +341,36 @@ const ProfileInfo = () => {
                                   <p className="price w-25 text-center mb-0">
                                     {itemTotalPrice(orderItem)} EGP
                                   </p>
-                                  <div className="d-flex justify-content-center px-2 w-25 ">
-                                    <div className="d-flex align-items-center ">
-                                      <StyledRating
-                                        name={`customized-color-${orderItem.product.id}`}
-                                        value={orderItem.product.avg_rating}
-                                        onChange={(event, newValue) => {
-                                          handleRatingSubmit(
-                                            orderItem.product.id,
-                                            newValue
-                                          );
-                                        }}
-                                        getLabelText={(value) =>
-                                          `${value} Heart${
-                                            value !== 1 ? "s" : ""
-                                          }`
-                                        }
-                                        icon={
-                                          <FavoriteIcon fontSize="inherit" />
-                                        }
-                                        emptyIcon={
-                                          <FavoriteBorderIcon fontSize="inherit" />
-                                        }
-                                      />
-                                      <Typography>
-                                        ({orderItem.product.total_ratings})
-                                      </Typography>
+                                  {order.status === "Delivered" && (
+                                    <div className="d-flex justify-content-center px-2 w-25 ">
+                                      <div className="d-flex align-items-center ">
+                                        <StyledRating
+                                          name={`customized-color-${orderItem.product.id}`}
+                                          value={orderItem.product.avg_rating}
+                                          onChange={(event, newValue) => {
+                                            handleRatingSubmit(
+                                              orderItem.product.id,
+                                              newValue
+                                            );
+                                          }}
+                                          getLabelText={(value) =>
+                                            `${value} Heart${
+                                              value !== 1 ? "s" : ""
+                                            }`
+                                          }
+                                          icon={
+                                            <FavoriteIcon fontSize="inherit" />
+                                          }
+                                          emptyIcon={
+                                            <FavoriteBorderIcon fontSize="inherit" />
+                                          }
+                                        />
+                                        <Typography>
+                                          ({orderItem.product.total_ratings})
+                                        </Typography>
+                                      </div>
                                     </div>
-                                  </div>
+                                  )}
                                 </div>
                               ))}
                           </div>

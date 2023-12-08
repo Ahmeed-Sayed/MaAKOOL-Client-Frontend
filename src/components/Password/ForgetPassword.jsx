@@ -10,29 +10,34 @@ const ForgetPassword = () => {
     e.preventDefault();
 
     if (!email) {
-      setError('Please enter your email.');
+      setError("Please enter your email.");
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:8000/api/accounts/reset-password/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
+      const response = await fetch(
+        "http://localhost:8000/api/accounts/reset-password/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
 
       if (response.ok) {
-        console.log('Password reset link sent successfully.');
+        console.log("Password reset link sent successfully.");
         navigate("/OpenMail");
       } else {
         const data = await response.json();
-        setError(data.error || 'Error occurred while sending reset instructions.');
+        setError(
+          data.error || "Error occurred while sending reset instructions."
+        );
       }
     } catch (error) {
-      console.error('Error:', error);
-      setError('Error occurred while sending reset instructions.');
+      console.error("Error:", error);
+      setError("Error occurred while sending reset instructions.");
     }
   };
 
@@ -59,7 +64,7 @@ const ForgetPassword = () => {
             {error && <div className="alert alert-danger">{error}</div>}
             <button
               type="submit"
-              className="mt-3 btn btn-lg btn-primary bg-primary  w-100"
+              className="mt-3 btn btn-lg  bg-danger text-light  w-100"
             >
               Send Instructions
             </button>
