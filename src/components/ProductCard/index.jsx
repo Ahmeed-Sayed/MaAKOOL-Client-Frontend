@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -16,17 +17,16 @@ import { useQueryClient } from "react-query";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import styled from "@emotion/styled";
-const StyledRating = styled(Rating)({
-  "& .MuiRating-iconFilled": {
-    color: "#ff6d75",
-  },
-  "& .MuiRating-iconHover": {
-    color: "#ff3d47",
-  },
-});
-
 export default function ProudctCard(props) {
   const queryClient = useQueryClient();
+  const StyledRating = styled(Rating)({
+    "& .MuiRating-iconFilled": {
+      color: "#ff6d75",
+    },
+    "& .MuiRating-iconHover": {
+      color: "#ff3d47",
+    },
+  });
 
   const cardStyle = {
     display: "flex",
@@ -64,9 +64,6 @@ export default function ProudctCard(props) {
                 <StyledRating
                   name={`customized-color-${product.id}`}
                   value={product.avg_rating}
-                  onChange={(event, newValue) => {
-                    props.handleRatingSubmit(product.id, newValue);
-                  }}
                   getLabelText={(value) =>
                     `${value} Heart${value !== 1 ? "s" : ""}`
                   }

@@ -1,9 +1,6 @@
-.product-name {
-  font-style: italic;
-}
-
 .quantity,
-.price {
+.price,
+.product-name {
   font-style: italic;
 }
 
@@ -32,27 +29,22 @@
   cursor: pointer;
 }
 
-/* Style the primary button differently */
 .btn-primary {
   background-color: blue;
 }
 
-/* Apply consistent styling to the card body */
 .card-body {
   padding: 20px;
 }
 
-/* Style the order history heading */
 .card-body h4 {
   color: #007bff;
 }
 
-/* Style the order details rows */
 .row {
   margin-bottom: 10px;
 }
 
-/* Style the hr elements */
 hr {
   border-top: 1px solid #ccc;
   margin: 15px 0;
